@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-slate-ink font-body antialiased;
+  }
+  ::selection {
+    @apply bg-seal-light/60;
+  }
+  :focus-visible {
+    outline: 2px solid #C79A2B;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply max-w-7xl mx-auto px-5 sm:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper transition-all duration-200 hover:bg-ink-700 hover:shadow-md active:scale-[0.98] focus-visible:outline-seal;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-transparent px-6 py-3 text-sm font-semibold text-ink transition-all duration-200 hover:bg-ink/5 hover:border-ink/25 active:scale-[0.98];
+  }
+  .btn-seal {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-seal px-6 py-3 text-sm font-semibold text-ink transition-all duration-200 hover:bg-seal-dark hover:text-paper hover:shadow-md active:scale-[0.98];
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-ink/12 bg-white px-4 py-3 text-sm text-ink placeholder:text-slate-ink/50 transition-shadow duration-150 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20;
+  }
+
+  .card {
+    @apply rounded-2xl border border-ink/8 bg-white shadow-[0_1px_2px_rgba(16,27,52,0.04)] transition-shadow duration-200;
+  }
+
+  /* The "verified" wax-seal stamp motif used across the brand */
+  .stamp {
+    @apply relative inline-flex items-center justify-center rounded-full border-[3px] border-seal text-seal-dark;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
+
+@keyframes stamp-in {
+  0% { transform: scale(2.2) rotate(-18deg); opacity: 0; }
+  60% { transform: scale(0.92) rotate(-8deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-8deg); opacity: 1; }
+}
+.animate-stamp {
+  animation: stamp-in 0.6s cubic-bezier(.2,.9,.3,1.2) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-stamp { animation: none; }
+}
