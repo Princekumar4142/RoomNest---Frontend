@@ -9,8 +9,12 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-paper text-ink font-body antialiased;
+    @apply bg-paper text-ink font-body antialiased transition-colors duration-200;
     color: #0F172A;
+  }
+  html.dark body {
+    background-color: #0B1120;
+    color: #F8FAFC;
   }
   ::selection {
     @apply bg-teal-light/20 text-teal-dark;
@@ -28,10 +32,10 @@
 
   /* Solid, trustworthy startup buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ink-900 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-ink-700 active:scale-[0.98] shadow-sm disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ink-900 dark:bg-[#FD701E] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-ink-700 dark:hover:bg-[#E55A0A] active:scale-[0.98] shadow-sm disabled:opacity-50;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-150 hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] shadow-sm disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-5 py-2.5 text-sm font-semibold text-ink dark:text-slate-200 transition-all duration-150 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 active:scale-[0.98] shadow-sm disabled:opacity-50;
   }
   .btn-seal {
     @apply inline-flex items-center justify-center gap-2 rounded-xl bg-seal px-5 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-seal-dark active:scale-[0.98] shadow-sm disabled:opacity-50;
@@ -45,12 +49,12 @@
 
   /* Crisp form inputs */
   .input-field {
-    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-slate-400 transition-all duration-150 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15 shadow-sm;
+    @apply w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-ink dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 transition-all duration-150 focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/15 shadow-sm;
   }
 
   /* Real card components */
   .card {
-    @apply rounded-2xl border border-slate-200/80 bg-white shadow-card transition-all duration-200;
+    @apply rounded-2xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-card transition-all duration-200;
   }
   .card-hover {
     @apply hover:shadow-card-hover hover:border-slate-300 hover:-translate-y-0.5;
@@ -64,4 +68,13 @@
   .gradient-text {
     @apply text-ink font-bold;
   }
+}
+
+/* Custom leaflet map markers */
+.custom-map-icon {
+  background: transparent;
+  border: none;
+}
+.leaflet-container {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
 }

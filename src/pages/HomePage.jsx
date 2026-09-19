@@ -25,6 +25,7 @@ import {
 import { roomApi } from "../api/endpoints";
 import RoomCard from "../components/room/RoomCard";
 import SEO from "../components/SEO";
+import { useLanguage } from "../context/LanguageContext";
 import toast from "react-hot-toast";
 
 const POPULAR_CAMPUSES = [
@@ -173,6 +174,7 @@ export default function HomePage() {
   const [openFaq, setOpenFaq] = useState(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   useEffect(() => {
     roomApi
@@ -251,37 +253,37 @@ export default function HomePage() {
   });
 
   return (
-    <div className="bg-[#FBFBFC] min-h-screen text-slate-900 selection:bg-orange-100 selection:text-orange-900">
+    <div className="bg-[#FBFBFC] dark:bg-[#0B1120] min-h-screen text-slate-900 dark:text-slate-100 selection:bg-orange-100 selection:text-orange-900 transition-colors">
       <SEO
         title="RoomNest — Verified PGs & Co-Living Spaces Across India"
         description="Find affordable, 100% verified PGs for students and working professionals. Homely food, safe gated security, verified owners, and zero brokerage."
       />
 
       {/* 1. HERO SECTION: PGdekho-Style Vibrant Multi-Filter Search Capsule */}
-      <section className="relative pt-10 pb-14 sm:py-16 bg-gradient-to-b from-white via-orange-50/20 to-[#FBFBFC] border-b border-slate-200/70">
+      <section className="relative pt-10 pb-14 sm:py-16 bg-gradient-to-b from-white via-orange-50/20 to-[#FBFBFC] dark:from-slate-900 dark:via-slate-900/90 dark:to-[#0B1120] border-b border-slate-200/70 dark:border-slate-800 transition-colors">
         <div className="container-page max-w-6xl text-center">
           
           {/* Trust Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-800 mb-5 shadow-2xs">
-            <ShieldCheck size={14} className="text-emerald-600 stroke-[2.5]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 mb-5 shadow-2xs">
+            <ShieldCheck size={14} className="text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
             100% In-Person Audited Accommodations • Zero Brokerage Guaranteed
           </div>
 
           {/* Punchy PGdekho-Style Headline */}
-          <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.15]">
-            Find Your Ideal Verified PG &{" "}
+          <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-slate-900 dark:text-white tracking-tight max-w-4xl mx-auto leading-[1.15]">
+            {t("hero_title", "Find Your Ideal Verified PG &")}{" "}
             <span className="text-[#FD701E]">Co-Living Space</span>
           </h1>
 
-          <p className="mt-3.5 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto font-medium">
-            Homely Food • 100% Verified Owners • Walking Distance to Campus • Direct WhatsApp Connect
+          <p className="mt-3.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+            {t("hero_subtitle", "Homely Food • 100% Verified Owners • Walking Distance to Campus • Direct WhatsApp Connect")}
           </p>
 
           {/* Minimal, Sleek Search Capsule */}
           <div className="mt-8 max-w-3xl mx-auto relative z-30">
             <form
               onSubmit={handleSearch}
-              className="bg-white rounded-2xl sm:rounded-full p-2 shadow-lg border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2 text-left"
+              className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-full p-2 shadow-lg border border-slate-200/90 dark:border-slate-700 flex flex-col sm:flex-row items-center gap-2 text-left"
             >
               {/* Primary Search Input: City, College, Area */}
               <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 relative" ref={dropdownRef}>
@@ -294,8 +296,8 @@ export default function HomePage() {
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
-                  placeholder="Enter city, area, or college..."
-                  className="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none placeholder:text-slate-400 placeholder:font-normal"
+                  placeholder={t("search_placeholder", "Enter city, area, or college...")}
+                  className="w-full bg-transparent text-sm font-semibold text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal"
                 />
 
                 {/* 10 km live location radar button */}

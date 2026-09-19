@@ -25,12 +25,15 @@ import {
   Share2,
   Scale,
   Sparkles,
+  Navigation,
 } from "lucide-react";
 import { roomApi, favoriteApi, reviewApi, bookingApi } from "../api/endpoints";
 import { useAuth } from "../context/AuthContext";
 import { useCompare } from "../context/CompareContext";
+import { useLanguage } from "../context/LanguageContext";
 import { Spinner } from "../components/ui/Primitives";
 import RentInsight from "../components/room/RentInsight";
+import DualDistanceMap from "../components/room/DualDistanceMap";
 import { recordView } from "../utils/recentlyViewed";
 import SEO from "../components/SEO";
 import toast from "react-hot-toast";
@@ -54,6 +57,7 @@ export default function RoomDetailsPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toggleCompare, items } = useCompare();
+  const { t } = useLanguage();
 
   const [room, setRoom] = useState(null);
   const [reviews, setReviews] = useState([]);
@@ -308,49 +312,8 @@ export default function RoomDetailsPage() {
         <div className="grid lg:grid-cols-[1fr_380px] gap-8 items-start">
           {/* Left Column: Details, Commute, Amenities, Rules, Reviews */}
           <div className="space-y-6">
-            {/* Campus Commute & Location Banner */}
-            {collegeDisplay && (
-              <div className="bg-white p-5 rounded-2xl border border-blue-100 shadow-sm">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-teal">
-                      <GraduationCap size={18} />
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                        Campus Proximity
-                      </h3>
-                      <p className="text-sm font-bold text-slate-900">{collegeDisplay}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-extrabold text-teal bg-blue-50 px-2.5 py-1 rounded-md">
-                    {distanceKm} km to Gate
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    <Footprints size={18} className="mx-auto text-emerald-600 mb-1" />
-                    <div className="text-xs font-bold text-slate-900">{walkMins} mins</div>
-                    <div className="text-[10px] text-slate-500">Walking time</div>
-                  </div>
-                  <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    <Bike size={18} className="mx-auto text-teal mb-1" />
-                    <div className="text-xs font-bold text-slate-900">{cycleMins} mins</div>
-                    <div className="text-[10px] text-slate-500">Bicycle time</div>
-                  </div>
-                  <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    <Train size={18} className="mx-auto text-blue-600 mb-1" />
-                    <div className="text-xs font-bold text-slate-900">
-                      {room.nearbyMetroStation ? "Near Metro" : "Auto / Bus"}
-                    </div>
-                    <div className="text-[10px] text-slate-500 truncate">
-                      {room.nearbyMetroStation || "Direct transit"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Live Dual-Distance GPS Map & Campus Proximity */}
+            <DualDistanceMap room={room} />
 
             {/* Room Header & Tags */}
             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
@@ -578,10 +541,19 @@ export default function RoomDetailsPage() {
               </div>
 
               {/* Schedule Visit Form */}
-              <form onSubmit={scheduleVisit} className="mt-5 pt-4 border-t border-slate-100">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                  Schedule Free Campus Visit
-                </label>
+              <form onSubmit={scheduleVisit} className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
+                    {t("schedule_visit_title", "Schedule Free Campus Visit")}
+                  </label>
+                  <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded">
+                    Free
+                  </span>
+                </div>
+                <div className="mb-2.5 p-2 rounded-xl bg-orange-50/70 dark:bg-orange-950/30 border border-orange-200/60 dark:border-orange-800/40 flex items-center gap-2 text-[11px] text-[#FD701E]">
+                  <Navigation size={13} className="shrink-0 animate-pulse" />
+                  <span>Live GPS navigation and route will guide you directly to this room gate!</span>
+                </div>
                 <input
                   type="datetime-local"
                   required
@@ -591,7 +563,7 @@ export default function RoomDetailsPage() {
                 />
                 <button type="submit" className="btn-primary w-full text-xs !py-2.5">
                   <CalendarClock size={15} />
-                  Book Visit Slot
+                  {t("book_visit_slot", "Book Visit Slot")}
                 </button>
               </form>
 
@@ -605,7 +577,7 @@ export default function RoomDetailsPage() {
                     className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 px-3 shadow-sm transition-all"
                   >
                     <MessageCircle size={15} />
-                    WhatsApp
+                    {t("whatsapp_owner", "WhatsApp")}
                   </a>
                 ) : (
                   <button
@@ -623,7 +595,7 @@ export default function RoomDetailsPage() {
                     className="btn-secondary text-xs !py-2.5"
                   >
                     <MessageCircle size={15} />
-                    In-app Chat
+                    {t("in_app_chat", "In-app Chat")}
                   </button>
                 )}
 
@@ -633,12 +605,12 @@ export default function RoomDetailsPage() {
                     className="btn-secondary text-xs !py-2.5"
                   >
                     <Phone size={15} />
-                    Call Owner
+                    {t("call_owner", "Call Owner")}
                   </a>
                 ) : (
                   <button disabled className="btn-secondary text-xs !py-2.5 opacity-50">
                     <Phone size={15} />
-                    Call Owner
+                    {t("call_owner", "Call Owner")}
                   </button>
                 )}
               </div>

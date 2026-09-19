@@ -3,6 +3,8 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { CompareProvider } from "./context/CompareContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { LanguageProvider } from "./context/LanguageContext";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ListPropertyRoute from "./components/ListPropertyRoute";
@@ -25,14 +27,16 @@ import SimplePage from "./pages/SimplePage";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-      <CompareProvider>
-        <Toaster position="top-center" toastOptions={{ style: { fontSize: "14px" } }} />
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/search" element={<SearchPage />} />
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <NotificationProvider>
+            <CompareProvider>
+              <Toaster position="top-center" toastOptions={{ style: { fontSize: "14px" } }} />
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/search" element={<SearchPage />} />
             <Route path="/rooms/:id" element={<RoomDetailsPage />} />
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/chat" element={<ChatPage />} />
@@ -124,9 +128,11 @@ export default function App() {
 
             <Route path="*" element={<SimplePage title="Page not found"><p>The page you're looking for doesn't exist.</p></SimplePage>} />
           </Route>
-        </Routes>
-      </CompareProvider>
-      </NotificationProvider>
-    </AuthProvider>
+              </Routes>
+            </CompareProvider>
+          </NotificationProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
