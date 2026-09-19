@@ -182,6 +182,29 @@ export default function ProfilePage() {
 
   return (
     <div className="container-page py-8 max-w-5xl">
+      {/* Admin Panel Quick Action Banner */}
+      {user.role === "admin" && (
+        <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold shrink-0">
+              <ShieldCheck size={22} />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-purple-900">Administrator Privileges Active</h4>
+              <p className="text-xs text-purple-700 mt-0.5">
+                Inspect pending student PG listings, audit landlord property photos, and approve rooms.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/admin/dashboard"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow-xs shrink-0 transition-colors"
+          >
+            <ShieldCheck size={14} /> Open Admin Approval Panel →
+          </Link>
+        </div>
+      )}
+
       {/* Student Profile Card Header */}
       <div className="card p-6 bg-white border border-slate-200/80 shadow-sm rounded-2xl mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
@@ -192,11 +215,28 @@ export default function ProfilePage() {
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="font-display text-2xl font-bold text-slate-900">{user.name}</h1>
-                <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 text-xs font-semibold">
-                  <GraduationCap size={13} />
-                  Student Member
-                </span>
-                {verificationDone ? (
+                {user.role === "admin" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200 px-2.5 py-0.5 text-xs font-semibold">
+                    <ShieldCheck size={13} />
+                    🛡️ Platform Admin
+                  </span>
+                ) : user.role === "owner" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-50 text-orange-700 border border-orange-200 px-2.5 py-0.5 text-xs font-semibold">
+                    <Building size={13} />
+                    Property Owner
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 text-xs font-semibold">
+                    <GraduationCap size={13} />
+                    Student Member
+                  </span>
+                )}
+                {user.role === "admin" ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold">
+                    <CheckCircle2 size={13} />
+                    Verified Admin
+                  </span>
+                ) : verificationDone ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold">
                     <ShieldCheck size={13} />
                     Verified Student
