@@ -277,39 +277,36 @@ export default function HomePage() {
             Homely Food • 100% Verified Owners • Walking Distance to Campus • Direct WhatsApp Connect
           </p>
 
-          {/* PGdekho-Inspired Multi-Column Search Capsule */}
-          <div className="mt-8 max-w-4xl mx-auto relative z-30">
+          {/* Minimal, Sleek Search Capsule */}
+          <div className="mt-8 max-w-3xl mx-auto relative z-30">
             <form
               onSubmit={handleSearch}
-              className="bg-white rounded-2xl sm:rounded-full p-2 sm:p-2.5 shadow-xl border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2 text-left"
+              className="bg-white rounded-2xl sm:rounded-full p-2 shadow-lg border border-slate-200/90 flex flex-col sm:flex-row items-center gap-2 text-left"
             >
-              {/* Column 1: City / Area / Campus Input */}
-              <div className="flex-1 w-full flex items-center gap-2.5 px-4 py-2 border-b sm:border-b-0 sm:border-r border-slate-100 relative" ref={dropdownRef}>
-                <Search size={18} className="text-[#FD701E] shrink-0" />
-                <div className="w-full">
-                  <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">City / Area / College</span>
-                  <input
-                    type="text"
-                    value={collegeQuery}
-                    onChange={(e) => {
-                      setCollegeQuery(e.target.value);
-                      setShowSuggestions(true);
-                    }}
-                    onFocus={() => setShowSuggestions(true)}
-                    placeholder="e.g. Kumarbagh, Bettiah, GEC..."
-                    className="w-full bg-transparent text-sm font-bold text-slate-900 focus:outline-none placeholder:text-slate-400 placeholder:font-normal"
-                  />
-                </div>
+              {/* Primary Search Input: City, College, Area */}
+              <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 relative" ref={dropdownRef}>
+                <MapPin size={20} className="text-[#FD701E] shrink-0" />
+                <input
+                  type="text"
+                  value={collegeQuery}
+                  onChange={(e) => {
+                    setCollegeQuery(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder="Enter city, area, or college..."
+                  className="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none placeholder:text-slate-400 placeholder:font-normal"
+                />
 
-                {/* GPS 10 km live location radar button right inside input */}
+                {/* 10 km live location radar button */}
                 <button
                   type="button"
                   onClick={handleLiveLocationSearch}
                   disabled={detectingLocation}
-                  className="p-2 hover:bg-orange-50 text-slate-500 hover:text-[#FD701E] rounded-full transition-colors shrink-0"
+                  className="p-1.5 hover:bg-orange-50 text-slate-400 hover:text-[#FD701E] rounded-full transition-colors shrink-0"
                   title="Detect GPS location (Find PGs within 10 km)"
                 >
-                  <Navigation size={17} className={detectingLocation ? "animate-spin text-[#FD701E]" : ""} />
+                  <Navigation size={16} className={detectingLocation ? "animate-spin text-[#FD701E]" : ""} />
                 </button>
 
                 {/* Autocomplete Dropdown */}
@@ -339,69 +336,47 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* Column 2: Occupancy (Gender) */}
-              <div className="w-full sm:w-40 flex items-center gap-2 px-4 py-2 border-b sm:border-b-0 sm:border-r border-slate-100">
-                <Users size={16} className="text-slate-400 shrink-0" />
-                <div className="w-full">
-                  <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Occupancy</span>
-                  <select
-                    value={occupancy}
-                    onChange={(e) => setOccupancy(e.target.value)}
-                    className="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none cursor-pointer"
-                  >
-                    <option value="">All (Boys/Girls)</option>
-                    <option value="Boys">Boys PG</option>
-                    <option value="Girls">Girls PG</option>
-                    <option value="Co-ed">Co-ed / Mixed</option>
-                  </select>
-                </div>
+              {/* Minimal Divider */}
+              <div className="hidden sm:block h-6 w-px bg-slate-200" />
+
+              {/* Minimal Gender Select */}
+              <div className="w-full sm:w-auto px-3 py-1 flex items-center gap-1.5">
+                <Users size={15} className="text-slate-400 shrink-0" />
+                <select
+                  value={occupancy}
+                  onChange={(e) => setOccupancy(e.target.value)}
+                  className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
+                >
+                  <option value="">All (Boys/Girls)</option>
+                  <option value="Boys">Boys Only</option>
+                  <option value="Girls">Girls Only</option>
+                  <option value="Co-ed">Co-ed</option>
+                </select>
               </div>
 
-              {/* Column 3: Room Sharing */}
-              <div className="w-full sm:w-40 flex items-center gap-2 px-4 py-2 border-b sm:border-b-0 sm:border-r border-slate-100">
-                <Bed size={16} className="text-slate-400 shrink-0" />
-                <div className="w-full">
-                  <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Sharing</span>
-                  <select
-                    value={sharingType}
-                    onChange={(e) => setSharingType(e.target.value)}
-                    className="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none cursor-pointer"
-                  >
-                    <option value="">Any Sharing</option>
-                    <option value="Single Room">Single Room</option>
-                    <option value="2-Sharing">2-Sharing</option>
-                    <option value="3-Sharing">3-Sharing</option>
-                    <option value="Private Flat">Full Flat</option>
-                  </select>
-                </div>
+              {/* Minimal Budget Select */}
+              <div className="hidden md:flex items-center gap-1 px-3 py-1 border-l border-slate-200">
+                <span className="text-xs font-bold text-slate-400">₹</span>
+                <select
+                  value={maxBudget}
+                  onChange={(e) => setMaxBudget(e.target.value)}
+                  className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
+                >
+                  <option value="">Any Budget</option>
+                  <option value="3500">&lt; ₹3,500</option>
+                  <option value="5000">&lt; ₹5,000</option>
+                  <option value="8000">&lt; ₹8,000</option>
+                  <option value="12000">&lt; ₹12,000</option>
+                </select>
               </div>
 
-              {/* Column 4: Max Budget */}
-              <div className="w-full sm:w-36 flex items-center gap-2 px-4 py-2">
-                <span className="text-sm font-bold text-slate-400 shrink-0">₹</span>
-                <div className="w-full">
-                  <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400">Max Rent</span>
-                  <select
-                    value={maxBudget}
-                    onChange={(e) => setMaxBudget(e.target.value)}
-                    className="w-full bg-transparent text-sm font-semibold text-slate-900 focus:outline-none cursor-pointer"
-                  >
-                    <option value="">Any Budget</option>
-                    <option value="3500">Under ₹3,500</option>
-                    <option value="5000">Under ₹5,000</option>
-                    <option value="8000">Under ₹8,000</option>
-                    <option value="12000">Under ₹12,000</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Submit Button (Vibrant Coral Orange) */}
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full sm:w-auto px-7 py-3.5 bg-[#FD701E] hover:bg-[#E55A0A] text-white rounded-xl sm:rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] shrink-0"
+                className="w-full sm:w-auto px-6 py-3 bg-[#FD701E] hover:bg-[#E55A0A] text-white rounded-xl sm:rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] shrink-0"
               >
-                <Search size={16} />
-                <span>Search PGs</span>
+                <Search size={15} />
+                <span>Search</span>
               </button>
             </form>
           </div>
