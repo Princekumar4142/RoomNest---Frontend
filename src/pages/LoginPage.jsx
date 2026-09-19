@@ -35,7 +35,9 @@ export default function LoginPage() {
       const data = err.response?.data;
       if (data?.requiresEmailVerification) {
         toast(data.message, { icon: "✉️" });
-        navigate("/verify-email", { state: { userId: data.userId, email: emailOrPhone } });
+        navigate("/verify-email", {
+          state: { userId: data.userId, email: emailOrPhone, devOtp: data.devOtp },
+        });
         return;
       }
       toast.error(data?.message || "Login failed.");
