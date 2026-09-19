@@ -66,7 +66,7 @@ const POPULAR_CAMPUSES = [
     short: "DU North Campus",
     city: "Kamla Nagar, Delhi",
     image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop&q=80",
-    price: "From ₹8,500/mo",
+    price: "From ₹4,500/mo",
     beds: "18+ Verified PGs"
   },
   {
@@ -74,91 +74,9 @@ const POPULAR_CAMPUSES = [
     short: "CUHP Dharamshala",
     city: "Dharamshala, HP",
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80",
-    price: "From ₹5,500/mo",
+    price: "From ₹4,500/mo",
     beds: "16+ Hostels"
   },
-];
-
-const CATEGORIES = [
-  {
-    title: "Boys PG & Hostels",
-    desc: "3 meals, Wi-Fi & study environment",
-    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&auto=format&fit=crop&q=80",
-    filterKey: "occupancy",
-    filterVal: "Boys",
-    tag: "Boys Only"
-  },
-  {
-    title: "Girls PG & Hostels",
-    desc: "Safe, gated with 24x7 warden & CCTV",
-    image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&auto=format&fit=crop&q=80",
-    filterKey: "occupancy",
-    filterVal: "Girls",
-    tag: "100% Safe & Gated"
-  },
-  {
-    title: "PG with 3 Meals",
-    desc: "Breakfast, lunch, and dinner included",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80",
-    filterKey: "foodIncluded",
-    filterVal: "true",
-    tag: "Homely Food"
-  },
-  {
-    title: "Private Single Rooms",
-    desc: "Personal space with attached washroom",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop&q=80",
-    filterKey: "roomType",
-    filterVal: "Single Room",
-    tag: "Full Privacy"
-  },
-];
-
-const AUDIT_GALLERY = [
-  {
-    title: "1. Building Front Look",
-    subtitle: "Gated entry, street lighting & curfew gate",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop&q=80",
-  },
-  {
-    title: "2. Clean Student Bedroom",
-    subtitle: "Comfortable mattress, ventilation & wardrobe",
-    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&auto=format&fit=crop&q=80",
-  },
-  {
-    title: "3. Study Table & Wi-Fi",
-    subtitle: "Dedicated desk, task light & 50+ Mbps net",
-    image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&auto=format&fit=crop&q=80",
-  },
-  {
-    title: "4. Attached Washroom",
-    subtitle: "Clean tiles, running water & hot geyser",
-    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=80",
-  },
-  {
-    title: "5. Hygienic Mess Hall",
-    subtitle: "Fresh meals, dining tables & UV/RO water",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80",
-  },
-];
-
-const FAQS = [
-  {
-    q: "How does RoomNest verify PG owners and properties?",
-    a: "Every room listed on RoomNest undergoes a physical 5-point in-person audit by our campus team. We verify the landlord's government ID (Aadhaar/PAN), inspect the exterior building gate, bedroom furniture, study table, geyser, and taste the student mess food before approving the listing."
-  },
-  {
-    q: "Is there any brokerage fee to book or contact the owner?",
-    a: "Zero! There is absolutely ₹0 brokerage. You connect directly with the verified property owner or warden on WhatsApp or via call with complete price transparency."
-  },
-  {
-    q: "Can I find accommodations within 10 km of my live location?",
-    a: "Yes! Click the '📍 Near My Live Location' button or the GPS icon inside the search bar. The platform will automatically calculate distances and show verified PGs and hostels within a 10 km radius."
-  },
-  {
-    q: "Do PGs provide rent agreements for college address proof?",
-    a: "Yes, our verified partner PGs provide formal rent agreements upon move-in, which students can submit for college registration, bank accounts, or scholarship applications."
-  }
 ];
 
 export default function HomePage() {
@@ -252,6 +170,56 @@ export default function HomePage() {
     return true;
   });
 
+  const CATEGORIES = [
+    {
+      title: t("boys_pg_hostels"),
+      desc: t("boys_pg_desc"),
+      image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&auto=format&fit=crop&q=80",
+      filterKey: "occupancy",
+      filterVal: "Boys",
+      tag: t("boys_only_tag")
+    },
+    {
+      title: t("girls_pg_hostels"),
+      desc: t("girls_pg_desc"),
+      image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&auto=format&fit=crop&q=80",
+      filterKey: "occupancy",
+      filterVal: "Girls",
+      tag: t("girls_safe_tag")
+    },
+    {
+      title: t("pg_with_meals"),
+      desc: t("pg_meals_desc"),
+      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80",
+      filterKey: "foodIncluded",
+      filterVal: "true",
+      tag: t("homely_food_tag")
+    },
+    {
+      title: t("private_rooms"),
+      desc: t("private_rooms_desc"),
+      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&auto=format&fit=crop&q=80",
+      filterKey: "roomType",
+      filterVal: "Single Room",
+      tag: t("full_privacy_tag")
+    },
+  ];
+
+  const AUDIT_GALLERY = [
+    { title: t("audit_1"), subtitle: t("audit_1_sub"), image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&auto=format&fit=crop&q=80" },
+    { title: t("audit_2"), subtitle: t("audit_2_sub"), image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&auto=format&fit=crop&q=80" },
+    { title: t("audit_3"), subtitle: t("audit_3_sub"), image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&auto=format&fit=crop&q=80" },
+    { title: t("audit_4"), subtitle: t("audit_4_sub"), image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=80" },
+    { title: t("audit_5"), subtitle: t("audit_5_sub"), image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80" },
+  ];
+
+  const FAQS = [
+    { q: t("faq_1_q"), a: t("faq_1_a") },
+    { q: t("faq_2_q"), a: t("faq_2_a") },
+    { q: t("faq_3_q"), a: t("faq_3_a") },
+    { q: t("faq_4_q"), a: t("faq_4_a") },
+  ];
+
   return (
     <div className="bg-[#FBFBFC] dark:bg-[#0B1120] min-h-screen text-slate-900 dark:text-slate-100 selection:bg-orange-100 selection:text-orange-900 transition-colors">
       <SEO
@@ -259,33 +227,32 @@ export default function HomePage() {
         description="Find affordable, 100% verified PGs for students and working professionals. Homely food, safe gated security, verified owners, and zero brokerage."
       />
 
-      {/* 1. HERO SECTION: PGdekho-Style Vibrant Multi-Filter Search Capsule */}
+      {/* 1. HERO SECTION */}
       <section className="relative pt-10 pb-14 sm:py-16 bg-gradient-to-b from-white via-orange-50/20 to-[#FBFBFC] dark:from-slate-900 dark:via-slate-900/90 dark:to-[#0B1120] border-b border-slate-200/70 dark:border-slate-800 transition-colors">
         <div className="container-page max-w-6xl text-center">
           
           {/* Trust Pill */}
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 mb-5 shadow-2xs">
             <ShieldCheck size={14} className="text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-            100% In-Person Audited Accommodations • Zero Brokerage Guaranteed
+            {t("trust_pill")}
           </div>
 
-          {/* Punchy PGdekho-Style Headline */}
+          {/* Headline */}
           <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-slate-900 dark:text-white tracking-tight max-w-4xl mx-auto leading-[1.15]">
-            {t("hero_title", "Find Your Ideal Verified PG &")}{" "}
-            <span className="text-[#FD701E]">Co-Living Space</span>
+            {t("hero_title")}{" "}
+            <span className="text-[#FD701E]">{t("co_living")}</span>
           </h1>
 
           <p className="mt-3.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-            {t("hero_subtitle", "Homely Food • 100% Verified Owners • Walking Distance to Campus • Direct WhatsApp Connect")}
+            {t("hero_subtitle")}
           </p>
 
-          {/* Minimal, Sleek Search Capsule */}
+          {/* Search Capsule */}
           <div className="mt-8 max-w-3xl mx-auto relative z-30">
             <form
               onSubmit={handleSearch}
               className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-full p-2 shadow-lg border border-slate-200/90 dark:border-slate-700 flex flex-col sm:flex-row items-center gap-2 text-left"
             >
-              {/* Primary Search Input: City, College, Area */}
               <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 relative" ref={dropdownRef}>
                 <MapPin size={20} className="text-[#FD701E] shrink-0" />
                 <input
@@ -296,26 +263,24 @@ export default function HomePage() {
                     setShowSuggestions(true);
                   }}
                   onFocus={() => setShowSuggestions(true)}
-                  placeholder={t("search_placeholder", "Enter city, area, or college...")}
+                  placeholder={t("search_placeholder")}
                   className="w-full bg-transparent text-sm font-semibold text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal"
                 />
 
-                {/* 10 km live location radar button */}
                 <button
                   type="button"
                   onClick={handleLiveLocationSearch}
                   disabled={detectingLocation}
                   className="p-1.5 hover:bg-orange-50 text-slate-400 hover:text-[#FD701E] rounded-full transition-colors shrink-0"
-                  title="Detect GPS location (Find PGs within 10 km)"
+                  title={t("near_live_location")}
                 >
                   <Navigation size={16} className={detectingLocation ? "animate-spin text-[#FD701E]" : ""} />
                 </button>
 
-                {/* Autocomplete Dropdown */}
                 {showSuggestions && (
                   <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 divide-y divide-slate-100">
                     <div className="p-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50">
-                      Popular Campuses & Cities
+                      {t("popular_campuses_dropdown")}
                     </div>
                     {filteredSuggestions.map((col) => (
                       <div
@@ -338,10 +303,8 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* Minimal Divider */}
               <div className="hidden sm:block h-6 w-px bg-slate-200" />
 
-              {/* Minimal Gender Select */}
               <div className="w-full sm:w-auto px-3 py-1 flex items-center gap-1.5">
                 <Users size={15} className="text-slate-400 shrink-0" />
                 <select
@@ -349,14 +312,13 @@ export default function HomePage() {
                   onChange={(e) => setOccupancy(e.target.value)}
                   className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
                 >
-                  <option value="">All (Boys/Girls)</option>
-                  <option value="Boys">Boys Only</option>
-                  <option value="Girls">Girls Only</option>
-                  <option value="Co-ed">Co-ed</option>
+                  <option value="">{t("all_gender")}</option>
+                  <option value="Boys">{t("boys_only")}</option>
+                  <option value="Girls">{t("girls_only")}</option>
+                  <option value="Co-ed">{t("co_ed")}</option>
                 </select>
               </div>
 
-              {/* Minimal Budget Select */}
               <div className="hidden md:flex items-center gap-1 px-3 py-1 border-l border-slate-200">
                 <span className="text-xs font-bold text-slate-400">₹</span>
                 <select
@@ -364,7 +326,7 @@ export default function HomePage() {
                   onChange={(e) => setMaxBudget(e.target.value)}
                   className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
                 >
-                  <option value="">Any Budget</option>
+                  <option value="">{t("any_budget")}</option>
                   <option value="3500">&lt; ₹3,500</option>
                   <option value="5000">&lt; ₹5,000</option>
                   <option value="8000">&lt; ₹8,000</option>
@@ -372,13 +334,12 @@ export default function HomePage() {
                 </select>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full sm:w-auto px-6 py-3 bg-[#FD701E] hover:bg-[#E55A0A] text-white rounded-xl sm:rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] shrink-0"
               >
                 <Search size={15} />
-                <span>Search</span>
+                <span>{t("search_btn")}</span>
               </button>
             </form>
           </div>
@@ -390,9 +351,9 @@ export default function HomePage() {
               onClick={handleLiveLocationSearch}
               className="text-xs font-bold text-[#FD701E] bg-orange-50 hover:bg-orange-100 px-3 py-1 rounded-full border border-orange-200 shadow-2xs flex items-center gap-1.5 transition-colors"
             >
-              <Navigation size={12} /> Near My Live Location (10 km)
+              <Navigation size={12} /> {t("near_live_location")}
             </button>
-            <span className="text-xs text-slate-400 font-medium">Popular:</span>
+            <span className="text-xs text-slate-400 font-medium">{t("popular_label")}</span>
             {POPULAR_CAMPUSES.map((c) => (
               <button
                 key={c.name}
@@ -408,19 +369,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 2. POPULAR ACCOMMODATIONS BY CATEGORY (PGdekho Style) */}
+      {/* 2. POPULAR ACCOMMODATIONS BY CATEGORY */}
       <section className="container-page py-10 max-w-6xl">
         <div className="flex items-end justify-between mb-5">
           <div>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
-              Popular Accommodation Types
+            <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+              {t("popular_accommodation_types")}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Explore verified rooms curated for your lifestyle and budget.
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              {t("explore_verified_rooms")}
             </p>
           </div>
           <Link to="/search" className="text-xs font-bold text-[#FD701E] hover:underline flex items-center gap-1">
-            Browse All <ArrowRight size={13} />
+            {t("browse_all")} <ArrowRight size={13} />
           </Link>
         </div>
 
@@ -455,15 +416,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. EXPLORE BY CITY / CAMPUS (PGdekho Style Visual Destination Grid) */}
+      {/* 3. EXPLORE BY CITY / CAMPUS */}
       <section className="container-page py-6 max-w-6xl">
         <div className="flex items-end justify-between mb-5">
           <div>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
-              Explore PGs by City & Campus
+            <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+              {t("explore_by_city")}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              Find verified student PGs and hostels within walking distance of key gates.
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              {t("explore_by_city_sub")}
             </p>
           </div>
         </div>
@@ -473,7 +434,7 @@ export default function HomePage() {
             <div
               key={camp.name}
               onClick={() => handleSelectCollege(camp.name)}
-              className="group rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col"
+              className="group rounded-2xl overflow-hidden border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col"
             >
               <div className="relative h-28 overflow-hidden bg-slate-100">
                 <img
@@ -487,10 +448,10 @@ export default function HomePage() {
               </div>
               <div className="p-2.5 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-xs text-slate-900 group-hover:text-[#FD701E] transition-colors truncate">
+                  <h3 className="font-display font-bold text-xs text-slate-900 dark:text-white group-hover:text-[#FD701E] transition-colors truncate">
                     {camp.short}
                   </h3>
-                  <p className="text-[10px] text-slate-500 truncate mt-0.5">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
                     {camp.beds}
                   </p>
                 </div>
@@ -500,29 +461,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. VERIFIED PG LISTINGS FEED (With Feed Filters & Instant WhatsApp) */}
+      {/* 4. VERIFIED PG LISTINGS FEED */}
       <section className="container-page py-10 max-w-6xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
-                Verified PGs & Co-Living Spaces Near You
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                {t("verified_pgs_near")}
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-              100% Verified owners • Physical inspection passed • Direct WhatsApp to landlords
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              {t("verified_pgs_sub")}
             </p>
           </div>
 
           {/* Category Chips */}
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
             {[
-              { id: "all", label: "All PGs" },
-              { id: "food", label: "Meals Included" },
-              { id: "boys", label: "Boys PG" },
-              { id: "girls", label: "Girls PG" },
-              { id: "single", label: "Single Room" },
+              { id: "all", label: t("all_pgs") },
+              { id: "food", label: t("meals_included") },
+              { id: "boys", label: t("boys_pg") },
+              { id: "girls", label: t("girls_pg") },
+              { id: "single", label: t("single_room") },
             ].map((f) => (
               <button
                 key={f.id}
@@ -530,7 +491,7 @@ export default function HomePage() {
                 className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
                   activeFilter === f.id
                     ? "bg-[#FD701E] text-white shadow-xs"
-                    : "bg-white text-slate-600 border border-slate-200 hover:bg-orange-50"
+                    : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-orange-50"
                 }`}
               >
                 {f.label}
@@ -546,14 +507,14 @@ export default function HomePage() {
             ))}
           </div>
         ) : displayRooms.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 p-8">
+          <div className="text-center py-16 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8">
             <Building size={32} className="text-slate-400 mx-auto mb-2" />
-            <p className="text-sm font-bold text-slate-800">No accommodations match this filter</p>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{t("no_match_filter")}</p>
             <button
               onClick={() => setActiveFilter("all")}
               className="btn-brand !py-1.5 !px-4 text-xs mt-3"
             >
-              Reset Filters
+              {t("reset_filters")}
             </button>
           </div>
         ) : (
@@ -565,32 +526,31 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* 5. THE 5-POINT PHYSICAL INSPECTION GALLERY (Photo-First Proof) */}
-      <section className="bg-white border-y border-slate-200/80 py-12 sm:py-16 my-6">
+      {/* 5. THE 5-POINT PHYSICAL INSPECTION GALLERY */}
+      <section className="bg-white dark:bg-slate-900 border-y border-slate-200/80 dark:border-slate-800 py-12 sm:py-16 my-6">
         <div className="container-page max-w-6xl">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-3 py-0.5 rounded-full">
-                <CheckCircle2 size={13} /> The 5-Point RoomNest Audit Standard
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3 py-0.5 rounded-full">
+                <CheckCircle2 size={13} /> {t("audit_badge")}
               </span>
-              <h2 className="font-display text-xl sm:text-3xl font-bold text-slate-900 mt-2">
-                What We Physically Inspect Before Listing
+              <h2 className="font-display text-xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-2">
+                {t("audit_title")}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Every PG is physically audited to verify the building exterior, bedroom comfort, study desk, washroom, and mess meals.
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                {t("audit_sub")}
               </p>
             </div>
-            <span className="text-xs font-bold text-slate-800 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 shrink-0">
-              100% Genuine Photos
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
+              {t("genuine_photos")}
             </span>
           </div>
 
-          {/* 5-Photo Visual Gallery */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {AUDIT_GALLERY.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 shadow-xs hover:shadow-md transition-all flex flex-col"
+                className="group rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 shadow-xs hover:shadow-md transition-all flex flex-col"
               >
                 <div className="relative aspect-square overflow-hidden bg-slate-200">
                   <img
@@ -599,17 +559,17 @@ export default function HomePage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-3 bg-white flex-1 flex flex-col justify-between border-t border-slate-100">
+                <div className="p-3 bg-white dark:bg-slate-800 flex-1 flex flex-col justify-between border-t border-slate-100 dark:border-slate-700">
                   <div>
-                    <h3 className="font-display font-bold text-xs sm:text-sm text-slate-900">
+                    <h3 className="font-display font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
                       {item.title}
                     </h3>
-                    <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">
                       {item.subtitle}
                     </p>
                   </div>
-                  <div className="mt-2 pt-1.5 border-t border-slate-100 text-[10px] font-bold text-emerald-700 flex items-center gap-1">
-                    ✓ Inspected by Campus Team
+                  <div className="mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-700 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                    ✓ {t("inspected_by")}
                   </div>
                 </div>
               </div>
@@ -618,72 +578,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. WHY CHOOSE ROOMNEST (PGdekho Style Feature Grid) */}
+      {/* 6. WHY CHOOSE ROOMNEST */}
       <section className="container-page py-12 max-w-6xl">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-xs font-bold uppercase tracking-wider text-[#FD701E]">
-            The RoomNest Advantage
+            {t("advantage_label")}
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-            Why Students & Parents Trust RoomNest
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+            {t("advantage_title")}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            We solve the biggest challenges in student housing with complete transparency.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            {t("advantage_sub")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs text-left">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700 shadow-xs text-left">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3">
               <ShieldCheck size={22} />
             </div>
-            <h3 className="font-display font-bold text-slate-900 text-sm">100% Verified Owners</h3>
-            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              Every host is verified with government ID (Aadhaar/PAN) and in-person property audits.
+            <h3 className="font-display font-bold text-slate-900 dark:text-white text-sm">{t("verified_owners")}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              {t("verified_owners_desc")}
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs text-left">
-            <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#FD701E] flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700 shadow-xs text-left">
+            <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/60 text-[#FD701E] flex items-center justify-center mb-3">
               <Sparkles size={22} />
             </div>
-            <h3 className="font-display font-bold text-slate-900 text-sm">Zero Brokerage Always</h3>
-            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              No middleman commission. Connect directly with landlords on WhatsApp with complete rent transparency.
+            <h3 className="font-display font-bold text-slate-900 dark:text-white text-sm">{t("zero_brokerage_title")}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              {t("zero_brokerage_desc")}
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs text-left">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700 shadow-xs text-left">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3">
               <Utensils size={22} />
             </div>
-            <h3 className="font-display font-bold text-slate-900 text-sm">Homely 3 Meals & RO Water</h3>
-            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              Weekly audited student mess halls, fresh vegetables, hygienic kitchens, and UV+RO drinking water.
+            <h3 className="font-display font-bold text-slate-900 dark:text-white text-sm">{t("homely_meals")}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              {t("homely_meals_desc")}
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs text-left">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700 shadow-xs text-left">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3">
               <Building size={22} />
             </div>
-            <h3 className="font-display font-bold text-slate-900 text-sm">Safe Gated Campuses</h3>
-            <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-              Street lighting, night curfew locks, CCTV cameras, and 24/7 security guards for student safety.
+            <h3 className="font-display font-bold text-slate-900 dark:text-white text-sm">{t("safe_campus")}</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              {t("safe_campus_desc")}
             </p>
           </div>
         </div>
       </section>
 
-      {/* 7. FREQUENTLY ASKED QUESTIONS (PGdekho Style) */}
-      <section className="bg-white border-y border-slate-200/80 py-12 sm:py-16">
+      {/* 7. FREQUENTLY ASKED QUESTIONS */}
+      <section className="bg-white dark:bg-slate-900 border-y border-slate-200/80 dark:border-slate-800 py-12 sm:py-16">
         <div className="container-page max-w-3xl">
           <div className="text-center mb-8">
             <span className="text-xs font-bold uppercase tracking-wider text-[#FD701E]">
-              Got Questions?
+              {t("faq_label")}
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 mt-1">
-              Frequently Asked Questions
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-1">
+              {t("faq_title")}
             </h2>
           </div>
 
@@ -691,12 +651,12 @@ export default function HomePage() {
             {FAQS.map((faq, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-slate-200 bg-slate-50/60 overflow-hidden"
+                className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800/60 overflow-hidden"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-4 text-left font-display font-bold text-sm text-slate-900 flex items-center justify-between gap-4"
+                  className="w-full p-4 text-left font-display font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between gap-4"
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
@@ -707,7 +667,7 @@ export default function HomePage() {
                   />
                 </button>
                 {openFaq === idx && (
-                  <div className="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-200/60 bg-white">
+                  <div className="px-4 pb-4 pt-1 text-xs text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-200/60 dark:border-slate-700 bg-white dark:bg-slate-800">
                     {faq.a}
                   </div>
                 )}
@@ -717,25 +677,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. LIST YOUR PROPERTY CTA BANNER (PGdekho Orange & Slate Style) */}
+      {/* 8. LIST YOUR PROPERTY CTA BANNER */}
       <section className="container-page py-12 pb-16 max-w-6xl">
         <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden border border-slate-800">
           <div className="relative z-10 max-w-xl">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#FD701E] bg-orange-950/80 px-3 py-1 rounded-full border border-orange-800">
-              For PG Owners & Wardens
+              {t("cta_label")}
             </span>
             <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-3">
-              Own a student PG or hostel near campus?
+              {t("cta_title")}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed">
-              List for free, get verified by our physical audit team, and receive direct WhatsApp inquiries from 1,000+ college students. Zero listing fee.
+              {t("cta_desc")}
             </p>
           </div>
           <Link
             to="/list-your-property"
             className="btn-brand font-bold text-xs whitespace-nowrap !py-3.5 !px-7 shadow-lg shrink-0 relative z-10 hover:scale-105 transition-transform"
           >
-            List Your PG Free
+            {t("cta_btn")}
           </Link>
         </div>
       </section>

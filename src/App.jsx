@@ -24,6 +24,7 @@ import RoommateFinderPage from "./pages/RoommateFinderPage";
 import ComparePage from "./pages/ComparePage";
 import ChatPage from "./pages/ChatPage";
 import SimplePage from "./pages/SimplePage";
+import AIAssistant from "./components/AIAssistant";
 
 export default function App() {
   return (
@@ -132,6 +133,7 @@ export default function App() {
             </CompareProvider>
           </NotificationProvider>
         </AuthProvider>
+        <AIAssistant />
       </LanguageProvider>
     </ThemeProvider>
   );

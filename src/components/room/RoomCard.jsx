@@ -17,9 +17,11 @@ import {
   Droplet
 } from "lucide-react";
 import { useCompare } from "../../context/CompareContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
   const { items, toggleCompare } = useCompare();
+  const { t } = useLanguage();
   const isComparing = items.some((r) => r._id === room._id);
 
   const collegeDisplay = room.campus || room.nearbyCollege;
@@ -49,12 +51,12 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 items-start">
           <span className="inline-flex items-center gap-1 rounded-md bg-emerald-600/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
             <ShieldCheck size={13} className="stroke-[2.5]" />
-            100% Verified Owner
+            {t("verified_owner_badge")}
           </span>
           {room.foodIncluded && (
             <span className="inline-flex items-center gap-1 rounded-md bg-[#FD701E]/95 backdrop-blur-sm px-2.5 py-1 text-[11px] font-bold text-white shadow-sm">
               <Utensils size={11} />
-              3 Meals Included
+              {t("meals_included_badge")}
             </span>
           )}
         </div>
@@ -153,7 +155,7 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
         <div className="mt-2.5 flex flex-wrap items-center gap-1.5 text-[11px] text-slate-600">
           {room.amenities?.wifi && (
             <span className="bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded text-slate-600">
-              Wi-Fi 50Mbps
+              {t("wifi_label")} 50Mbps
             </span>
           )}
           {room.amenities?.attachedBathroom && (
@@ -168,7 +170,7 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
           )}
           {room.amenities?.studyTable && (
             <span className="bg-slate-50 border border-slate-100 px-1.5 py-0.5 rounded text-slate-600">
-              Study Desk
+              {t("study_desk")}
             </span>
           )}
         </div>
@@ -180,7 +182,7 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
             <span className="truncate">Host: <strong className="text-slate-800">{ownerName.split(" ")[0]}</strong> (KYC ✓)</span>
           </div>
           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100 shrink-0">
-            0% Brokerage
+            {t("zero_brokerage_badge")}
           </span>
         </div>
 
@@ -191,7 +193,7 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
               <span className="font-display text-lg font-extrabold text-slate-900">
                 ₹{room.rent?.toLocaleString("en-IN")}
               </span>
-              <span className="text-xs text-slate-500">/mo</span>
+              <span className="text-xs text-slate-500">{t("per_mo")}</span>
             </div>
             <span className="text-[10px] font-medium text-slate-400 block">
               {room.occupancy} Accommodation
@@ -224,7 +226,7 @@ export default function RoomCard({ room, isFavorite, onToggleFavorite }) {
               to={`/rooms/${room._id}`}
               className="btn-brand !py-1.5 !px-3 text-xs font-bold whitespace-nowrap"
             >
-              View PG
+              {t("view_details")}
             </Link>
           </div>
         </div>

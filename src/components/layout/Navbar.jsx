@@ -14,6 +14,15 @@ import {
   Moon,
   Globe,
   Check,
+  Home,
+  Search,
+  Users,
+  HelpCircle,
+  LogOut,
+  ChevronRight,
+  Bell,
+  Bookmark,
+  LayoutDashboard,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -34,21 +43,15 @@ export default function Navbar() {
   const { theme, toggleTheme, isDark } = useTheme();
   const { language, setLanguage, t, languages } = useLanguage();
 
-  const [open, setOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [selectedCity, setSelectedCity] = useState("Bettiah / Kumarbagh");
   const [showCityPicker, setShowCityPicker] = useState(false);
-  const [showLangPicker, setShowLangPicker] = useState(false);
 
   const cityDropdownRef = useRef(null);
-  const langDropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  const navLinks = [
-    { to: "/search", label: t("explore_pgs", "Explore PGs") },
-    { to: "/roommates", label: t("find_roommates", "Find Roommates") },
-    { to: "/how-it-works", label: t("how_it_works", "How It Works") },
-  ];
+  const currentLangObj = languages.find((l) => l.code === language) || languages[0];
 
   useEffect(() => {
     function onScroll() {
@@ -63,58 +66,76 @@ export default function Navbar() {
       if (cityDropdownRef.current && !cityDropdownRef.current.contains(e.target)) {
         setShowCityPicker(false);
       }
-      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target)) {
-        setShowLangPicker(false);
-      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (drawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [drawerOpen]);
+
   function handleSelectLocation(city) {
     setSelectedCity(city.query);
     setShowCityPicker(false);
+    setDrawerOpen(false);
     navigate(`/search?campus=${encodeURIComponent(city.query)}`);
   }
 
-  const currentLangObj = languages.find((l) => l.code === language) || languages[0];
+  function closeDrawer() {
+    setDrawerOpen(false);
+  }
+
+  const NAV_ITEMS = [
+    { to: "/", label: t("explore_pgs", "Home"), icon: Home },
+    { to: "/search", label: t("explore_pgs", "Explore PGs"), icon: Search },
+    { to: "/roommates", label: t("find_roommates", "Find Roommates"), icon: Users },
+    { to: "/how-it-works", label: t("how_it_works", "How It Works"), icon: HelpCircle },
+  ];
 
   return (
-    <header
-      className={`sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md transition-colors duration-200 ${
-        scrolled
-          ? "border-b border-slate-200 dark:border-slate-800 shadow-sm"
-          : "border-b border-slate-100 dark:border-slate-800/60"
-      }`}
-    >
-      <div className="container-page flex h-16 items-center justify-between gap-3">
-        {/* Brand Logo with Image */}
-        <div className="flex items-center gap-3 shrink-0">
-          <Link to="/" className="flex items-center gap-2.5 group">
+    <>
+      {/* ─── Slim Top Bar ─── */}
+      <header
+        className={`sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md transition-colors duration-200 ${
+          scrolled
+            ? "border-b border-slate-200 dark:border-slate-800 shadow-sm"
+            : "border-b border-slate-100 dark:border-slate-800/60"
+        }`}
+      >
+        <div className="container-page flex h-14 items-center justify-between gap-3">
+          {/* Left: Logo */}
+          <Link to="/" className="flex items-center gap-2 group shrink-0">
             <img
               src="/logo.png"
               alt="RoomNest Logo"
-              className="h-9 w-9 object-contain rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs transition-transform group-hover:scale-105"
+              className="h-8 w-8 object-contain rounded-lg border border-slate-100 dark:border-slate-700 shadow-xs transition-transform group-hover:scale-105"
             />
             <div>
-              <div className="font-display text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-1">
+              <div className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-0.5">
                 <span>Room</span>
                 <span className="text-[#FD701E]">Nest</span>
               </div>
-              <div className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 tracking-wide uppercase mt-0.5">
+              <div className="text-[9px] font-semibold text-emerald-700 dark:text-emerald-400 tracking-wide uppercase mt-0.5">
                 {t("brand_sub", "Verified PGs & Co-Living")}
               </div>
             </div>
           </Link>
 
-          {/* PGdekho Style City / Location Selector */}
-          <div className="relative hidden lg:block ml-2" ref={cityDropdownRef}>
+          {/* Center: Location Selector (Desktop) */}
+          <div className="relative hidden sm:block" ref={cityDropdownRef}>
             <button
               onClick={() => setShowCityPicker(!showCityPicker)}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-750 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors shadow-2xs"
             >
               <MapPin size={13} className="text-[#FD701E]" />
-              <span className="max-w-[130px] truncate">{selectedCity}</span>
+              <span className="max-w-[140px] truncate">{selectedCity}</span>
               <ChevronDown size={12} className="text-slate-400" />
             </button>
 
@@ -136,275 +157,122 @@ export default function Navbar() {
               </div>
             )}
           </div>
-        </div>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive
-                    ? "text-[#FD701E] bg-orange-50 dark:bg-orange-950/40 font-bold"
-                    : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Right CTA / Controls */}
-        <div className="hidden md:flex items-center gap-2">
-          {/* Multi-Language Switcher Dropdown */}
-          <div className="relative" ref={langDropdownRef}>
-            <button
-              onClick={() => setShowLangPicker(!showLangPicker)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors shadow-2xs"
-              title="Change Language"
-            >
-              <Globe size={14} className="text-teal-600 dark:text-teal-400" />
-              <span>{currentLangObj.flag}</span>
-              <span className="text-[11px] font-bold">{currentLangObj.short}</span>
-              <ChevronDown size={11} className="text-slate-400" />
-            </button>
-
-            {showLangPicker && (
-              <div className="absolute top-full right-0 mt-2 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl z-50 p-1.5">
-                <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Select Language
-                </div>
-                {languages.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => {
-                      setLanguage(l.code);
-                      setShowLangPicker(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-colors text-left ${
-                      language === l.code
-                        ? "bg-orange-50 dark:bg-orange-950/50 text-[#FD701E] font-bold"
-                        : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>{l.flag}</span>
-                      <span>{l.label}</span>
-                    </span>
-                    {language === l.code && <Check size={14} className="text-[#FD701E]" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Theme Switcher Toggle */}
+          {/* Right: Hamburger Menu Button */}
           <button
-            onClick={toggleTheme}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-2xs"
-            aria-label="Toggle dark mode"
-            title={isDark ? t("light_mode", "Switch to Light Mode") : t("dark_mode", "Switch to Dark Mode")}
+            onClick={() => setDrawerOpen(true)}
+            className="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-2xs"
+            aria-label="Open navigation menu"
           >
-            {isDark ? (
-              <Sun size={16} className="text-amber-400 hover:rotate-45 transition-transform" />
-            ) : (
-              <Moon size={16} className="text-slate-600 hover:-rotate-12 transition-transform" />
-            )}
+            <Menu size={20} />
           </button>
+        </div>
+      </header>
 
-          {/* Admin Dashboard Quick Access Button */}
-          {user?.role === "admin" && (
-            <Link
-              to="/admin/dashboard"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all border border-purple-500 hover:scale-105"
-              title="Review Pending Room Listings"
-            >
-              <ShieldCheck size={14} className="text-purple-200" />
-              <span>🛡️ {t("admin_panel", "Admin Panel")}</span>
-            </Link>
-          )}
+      {/* ─── Right-Side Drawer Overlay ─── */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 flex justify-end">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={closeDrawer}
+          />
 
-          {/* List Your PG CTA Button (PGdekho Orange Style) */}
-          <Link
-            to="/list-your-property"
-            className="btn-brand !py-2 !px-3 text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-xs"
+          {/* Drawer Panel */}
+          <div
+            className="relative w-[75%] max-w-sm h-full bg-white dark:bg-slate-900 shadow-2xl flex flex-col overflow-y-auto animate-slide-in-right"
+            style={{
+              animation: "slideInRight 0.25s ease-out",
+            }}
           >
-            <PlusCircle size={14} />
-            <span>{t("list_your_pg", "List Your PG")}</span>
-            <span className="bg-white/20 text-white text-[9px] px-1.5 py-0.2 rounded font-mono uppercase">Free</span>
-          </Link>
-
-          {user ? (
-            <>
-              <NotificationBell />
-              <Link
-                to="/chat"
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                aria-label="Messages"
-                title="Messages"
-              >
-                <MessageCircle size={18} />
-              </Link>
-              <Link
-                to="/favorites"
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition-colors"
-                aria-label="Favorites"
-                title="Saved PGs"
-              >
-                <Heart size={18} />
-              </Link>
-              <Link
-                to={
-                  user.role === "owner"
-                    ? "/owner/dashboard"
-                    : user.role === "admin"
-                    ? "/admin/dashboard"
-                    : "/profile"
-                }
-                className="flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 pl-2 pr-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 hover:border-slate-300 transition-colors ml-1"
-              >
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-white text-[11px] font-bold">
-                  {user.name?.[0]?.toUpperCase() || <UserIcon size={12} />}
-                </div>
-                <span>{user.name?.split(" ")[0]}</span>
-                {user.role === "admin" && (
-                  <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded">
-                    Admin
-                  </span>
-                )}
-              </Link>
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+                Navigation
+              </span>
               <button
-                onClick={() => {
-                  logout();
-                  navigate("/");
-                }}
-                className="text-xs font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 px-1.5 transition-colors"
+                onClick={closeDrawer}
+                className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition-colors"
               >
-                {t("logout", "Logout")}
+                close <X size={16} />
               </button>
-            </>
-          ) : (
-            <>
+            </div>
+
+            {/* Navigation Links */}
+            <nav className="px-5 py-4 space-y-1">
+              {NAV_ITEMS.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={closeDrawer}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold transition-colors ${
+                      isActive
+                        ? "text-[#FD701E] bg-orange-50 dark:bg-orange-950/40"
+                        : "text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    }`
+                  }
+                >
+                  <item.icon size={18} className="shrink-0" />
+                  {item.label}
+                </NavLink>
+              ))}
+
+              {/* List Your PG */}
               <Link
-                to="/login"
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-2 py-1.5"
+                to="/list-your-property"
+                onClick={closeDrawer}
+                className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
               >
-                {t("sign_in", "Sign In")}
+                <PlusCircle size={18} className="shrink-0 text-[#FD701E]" />
+                {t("list_your_pg", "List Your PG")}
+                <span className="ml-auto text-[9px] font-bold text-white bg-emerald-600 px-2 py-0.5 rounded-full uppercase">Free</span>
               </Link>
-              <Link to="/register" className="btn-secondary !py-2 !px-3 text-xs font-bold">
-                {t("student_signup", "Student Sign Up")}
-              </Link>
-            </>
-          )}
-        </div>
 
-        {/* Mobile controls & menu trigger */}
-        <div className="flex md:hidden items-center gap-1.5">
-          {/* Quick theme toggle on mobile */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} />}
-          </button>
-
-          <button
-            onClick={() => setOpen(!open)}
-            className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {open && (
-        <div className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-4 space-y-4 shadow-xl">
-          {/* Language Switcher on Mobile */}
-          <div>
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-              Language / भाषा
-            </span>
-            <div className="grid grid-cols-3 gap-2">
-              {languages.map((l) => (
-                <button
-                  key={l.code}
-                  onClick={() => setLanguage(l.code)}
-                  className={`p-2 rounded-xl text-xs font-bold text-center border transition-colors ${
-                    language === l.code
-                      ? "bg-orange-50 dark:bg-orange-950/60 border-[#FD701E] text-[#FD701E]"
-                      : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
-                  }`}
+              {/* Admin Panel */}
+              {user?.role === "admin" && (
+                <Link
+                  to="/admin/dashboard"
+                  onClick={closeDrawer}
+                  className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-bold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 dark:hover:bg-purple-950/60 transition-colors"
                 >
-                  <div>{l.flag}</div>
-                  <div className="text-[11px] mt-0.5">{l.label}</div>
-                </button>
-              ))}
-            </div>
-          </div>
+                  <ShieldCheck size={18} className="shrink-0" />
+                  {t("admin_panel", "Admin Panel")}
+                  <span className="ml-auto text-[9px] font-bold text-white bg-purple-600 px-2 py-0.5 rounded-full uppercase">Admin</span>
+                </Link>
+              )}
+            </nav>
 
-          <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
-            <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-              {t("select_campus", "Select Campus / Area")}
-            </span>
-            <div className="grid grid-cols-2 gap-2">
-              {CITIES.slice(0, 4).map((c) => (
-                <button
-                  key={c.query}
-                  onClick={() => {
-                    handleSelectLocation(c);
-                    setOpen(false);
-                  }}
-                  className="p-2 text-left bg-slate-50 dark:bg-slate-800 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-orange-950/40 truncate"
-                >
-                  📍 {c.query}
-                </button>
-              ))}
-            </div>
-          </div>
+            <div className="border-t border-slate-100 dark:border-slate-800 mx-5" />
 
-          <nav className="flex flex-col gap-1">
-            {navLinks.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                onClick={() => setOpen(false)}
-                className="py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-[#FD701E]"
+            {/* Toggle Theme */}
+            <div className="px-5 py-4">
+              <button
+                onClick={toggleTheme}
+                className="w-full flex items-center justify-between px-3 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
               >
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <Link
-            to="/list-your-property"
-            onClick={() => setOpen(false)}
-            className="btn-brand w-full !py-2.5 text-xs font-bold text-center"
-          >
-            + {t("list_your_pg", "List Your PG")} (Free)
-          </Link>
-
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-2">
-            {user ? (
-              <>
-                {user.role === "admin" && (
-                  <Link
-                    to="/admin/dashboard"
-                    onClick={() => setOpen(false)}
-                    className="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold flex items-center justify-between shadow-sm"
-                  >
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck size={18} className="text-purple-200" />
-                      <span>🛡️ {t("admin_panel", "Open Admin Approval Panel")}</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                  Toggle Theme
+                </span>
+                <div className="flex items-center gap-2">
+                  {isDark ? (
+                    <div className="flex items-center gap-1.5 bg-amber-100 dark:bg-amber-900/60 px-2.5 py-1 rounded-full">
+                      <Sun size={14} className="text-amber-500" />
+                      <span className="text-[10px] font-bold text-amber-700 dark:text-amber-300">Light</span>
                     </div>
-                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono uppercase">Admin</span>
-                  </Link>
-                )}
+                  ) : (
+                    <div className="flex items-center gap-1.5 bg-slate-200 dark:bg-slate-700 px-2.5 py-1 rounded-full">
+                      <Moon size={14} className="text-slate-600" />
+                      <span className="text-[10px] font-bold text-slate-700">Dark</span>
+                    </div>
+                  )}
+                </div>
+              </button>
+            </div>
+
+            {/* User Profile Section */}
+            {user ? (
+              <div className="px-5 pb-3">
                 <Link
                   to={
                     user.role === "owner"
@@ -413,43 +281,137 @@ export default function Navbar() {
                       ? "/admin/dashboard"
                       : "/profile"
                   }
-                  onClick={() => setOpen(false)}
-                  className="py-2 text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2"
+                  onClick={closeDrawer}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 transition-colors"
                 >
-                  <UserIcon size={16} /> {t("my_dashboard", "My Dashboard")} ({user.name})
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 dark:bg-slate-600 text-white text-sm font-bold shrink-0">
+                    {user.name?.[0]?.toUpperCase() || <UserIcon size={16} />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                      {user.name}
+                    </div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                      {user.email || user.phone || t("my_dashboard", "My Dashboard")}
+                    </div>
+                  </div>
+                  <ChevronRight size={16} className="text-slate-400 shrink-0" />
                 </Link>
+
+                {/* Quick actions row */}
+                <div className="grid grid-cols-3 gap-2 mt-3">
+                  <Link
+                    to="/favorites"
+                    onClick={closeDrawer}
+                    className="flex flex-col items-center gap-1 p-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 hover:bg-rose-100 transition-colors"
+                  >
+                    <Heart size={16} />
+                    <span className="text-[10px] font-bold">Saved</span>
+                  </Link>
+                  <Link
+                    to="/chat"
+                    onClick={closeDrawer}
+                    className="flex flex-col items-center gap-1 p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors"
+                  >
+                    <MessageCircle size={16} />
+                    <span className="text-[10px] font-bold">Chats</span>
+                  </Link>
+                  <Link
+                    to={user.role === "owner" ? "/owner/dashboard" : "/profile"}
+                    onClick={closeDrawer}
+                    className="flex flex-col items-center gap-1 p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 transition-colors"
+                  >
+                    <LayoutDashboard size={16} />
+                    <span className="text-[10px] font-bold">Dashboard</span>
+                  </Link>
+                </div>
+
+                {/* Logout Button */}
                 <button
                   onClick={() => {
                     logout();
-                    setOpen(false);
+                    closeDrawer();
                     navigate("/");
                   }}
-                  className="text-left py-1 text-xs font-medium text-rose-600"
+                  className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs font-bold border border-red-200 dark:border-red-900 hover:bg-red-100 dark:hover:bg-red-950/60 transition-colors"
                 >
-                  {t("logout", "Log out")}
+                  <LogOut size={14} />
+                  {t("logout", "Logout")}
                 </button>
-              </>
+              </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2 pt-2">
-                <Link
-                  to="/login"
-                  onClick={() => setOpen(false)}
-                  className="btn-secondary !py-2 text-xs font-bold text-center"
-                >
-                  {t("sign_in", "Sign In")}
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={() => setOpen(false)}
-                  className="btn-primary !py-2 text-xs font-bold text-center"
-                >
-                  {t("student_signup", "Sign Up")}
-                </Link>
+              <div className="px-5 pb-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    to="/login"
+                    onClick={closeDrawer}
+                    className="py-2.5 rounded-xl border-2 border-[#FD701E] text-[#FD701E] text-xs font-bold text-center hover:bg-orange-50 dark:hover:bg-orange-950/40 transition-colors"
+                  >
+                    {t("sign_in", "Sign In")}
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={closeDrawer}
+                    className="py-2.5 rounded-xl bg-[#FD701E] text-white text-xs font-bold text-center hover:bg-[#E55A0A] transition-colors shadow-sm"
+                  >
+                    {t("student_signup", "Sign Up")}
+                  </Link>
+                </div>
               </div>
             )}
+
+            {/* Language Selector */}
+            <div className="px-5 py-4 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
+                  Language
+                </span>
+                <div className="relative">
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 pr-8 text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-none focus:border-[#FD701E]"
+                  >
+                    {languages.map((l) => (
+                      <option key={l.code} value={l.code}>
+                        {l.flag} {l.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* Campus Quick Select (in drawer for mobile) */}
+            <div className="px-5 py-4 border-t border-slate-100 dark:border-slate-800 sm:hidden">
+              <span className="block text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 mb-2">
+                {t("select_campus", "Select Campus / Area")}
+              </span>
+              <div className="grid grid-cols-2 gap-2">
+                {CITIES.slice(0, 4).map((c) => (
+                  <button
+                    key={c.query}
+                    onClick={() => handleSelectLocation(c)}
+                    className="p-2 text-left bg-slate-50 dark:bg-slate-800 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-orange-50 dark:hover:bg-orange-950/40 truncate border border-slate-200 dark:border-slate-700"
+                  >
+                    📍 {c.query}
+                  </button>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
-    </header>
+
+      {/* Slide-in animation */}
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+        }
+      `}</style>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 import { authApi } from "../api/endpoints";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 import AuthLayout from "../layouts/AuthLayout";
 
 export default function LoginPage() {
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { loginSuccess } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   async function handlePasswordLogin(e) {
     e.preventDefault();
@@ -54,15 +56,15 @@ export default function LoginPage() {
           alt="RoomNest Logo"
           className="h-12 w-12 object-contain rounded-xl mx-auto mb-3 shadow-sm border border-slate-100 lg:hidden"
         />
-        <h1 className="font-display text-2xl font-bold text-slate-900">Student & Owner Login</h1>
-        <p className="text-xs text-slate-500 mt-1">Access verified listings, campus visits, and owner chats.</p>
+        <h1 className="font-display text-2xl font-bold text-slate-900">{t("login_title")}</h1>
+        <p className="text-xs text-slate-500 mt-1">{t("login_sub")}</p>
       </div>
 
       <form onSubmit={handlePasswordLogin} className="space-y-4">
         <input
           required
           type="email"
-          placeholder="Email address"
+          placeholder={t("email_placeholder")}
           value={emailOrPhone}
           onChange={(e) => setEmailOrPhone(e.target.value)}
           className="input-field"
@@ -71,7 +73,7 @@ export default function LoginPage() {
           <input
             required
             type={showPassword ? "text" : "password"}
-            placeholder="Password"
+            placeholder={t("password_placeholder")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="input-field pr-11"
@@ -89,19 +91,19 @@ export default function LoginPage() {
 
         <div className="flex justify-end -mt-1">
           <Link to="/forgot-password" className="text-xs font-medium text-teal hover:text-teal-dark">
-            Forgot password?
+            {t("forgot_password")}
           </Link>
         </div>
 
         <button disabled={loading} className="btn-primary w-full disabled:opacity-60">
-          {loading ? "Logging in..." : "Log in"}
+          {loading ? t("logging_in") : t("login_btn")}
         </button>
       </form>
 
       <p className="mt-6 text-center text-sm text-slate-ink/60">
-        New to RoomNest?{" "}
+        {t("new_to_roomnest")}{" "}
         <Link to="/register" className="font-medium text-teal hover:text-teal-dark">
-          Create an account
+          {t("create_account")}
         </Link>
       </p>
     </AuthLayout>
