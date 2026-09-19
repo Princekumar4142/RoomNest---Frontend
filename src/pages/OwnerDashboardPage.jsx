@@ -25,9 +25,21 @@ import KycPanel from "../components/owner/KycPanel";
 import toast from "react-hot-toast";
 
 const STATUS_META = {
-  approved: { label: "Verified Physical Inspection", icon: ShieldCheck, className: "text-emerald-700 bg-emerald-50 border border-emerald-200" },
-  pending: { label: "Physical Audit In Progress", icon: Clock, className: "text-amber-700 bg-amber-50 border border-amber-200" },
-  rejected: { label: "Inspection Not Passed", icon: XCircle, className: "text-rose-700 bg-rose-50 border border-rose-200" },
+  approved: {
+    label: "✓ Verified & Approved",
+    icon: ShieldCheck,
+    className: "text-emerald-700 bg-emerald-50 border border-emerald-200",
+  },
+  pending: {
+    label: "⏳ Awaiting Admin Approval",
+    icon: Clock,
+    className: "text-amber-700 bg-amber-50 border border-amber-200",
+  },
+  rejected: {
+    label: "✕ Approval Declined",
+    icon: XCircle,
+    className: "text-rose-700 bg-rose-50 border border-rose-200",
+  },
 };
 
 export default function OwnerDashboardPage() {
@@ -289,6 +301,40 @@ export default function OwnerDashboardPage() {
                         </div>
                       </div>
 
+                      {/* Verification Status Banner */}
+                      {room.verificationStatus === "pending" && (
+                        <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-start gap-2.5">
+                          <Clock size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="font-bold">Pending Admin Verification & Approval</p>
+                            <p className="text-amber-700 text-[11px] mt-0.5">
+                              This listing is in the Admin Inspection Queue. To maintain 100% genuine listings on RoomNest, an Admin must verify your photos and property details before it goes live for students.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {room.verificationStatus === "approved" && (
+                        <div className="mt-3 p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center gap-2">
+                          <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
+                          <span className="font-semibold text-emerald-800">
+                            Verified by Admin · Currently Live in Student Search Results
+                          </span>
+                        </div>
+                      )}
+
+                      {room.verificationStatus === "rejected" && (
+                        <div className="mt-3 p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 flex items-start gap-2.5">
+                          <XCircle size={16} className="text-rose-600 shrink-0 mt-0.5" />
+                          <div>
+                            <p className="font-bold">Listing Disapproved by Admin</p>
+                            <p className="text-rose-700 text-[11px] mt-0.5">
+                              {room.rejectionReason || "Photos or property information did not pass our verification standards. Please click Edit Property Details below to update and re-submit for review."}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Bed availability controls */}
                       <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
@@ -328,22 +374,29 @@ export default function OwnerDashboardPage() {
 
                         {/* Active toggle */}
                         <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleToggleActive(room)}
-                            className="flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-slate-900"
-                          >
-                            {room.isActive !== false ? (
-                              <>
-                                <ToggleRight size={22} className="text-emerald-600" />
-                                <span className="text-emerald-700 font-semibold">Listing Live</span>
-                              </>
-                            ) : (
-                              <>
-                                <ToggleLeft size={22} className="text-slate-400" />
-                                <span className="text-slate-500 font-semibold">Listing Paused</span>
-                              </>
-                            )}
-                          </button>
+                          {room.verificationStatus !== "approved" ? (
+                            <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                              <Clock size={13} />
+                              <span>In Review (Hidden from Students)</span>
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => handleToggleActive(room)}
+                              className="flex items-center gap-1.5 text-xs font-medium text-slate-700 hover:text-slate-900"
+                            >
+                              {room.isActive !== false ? (
+                                <>
+                                  <ToggleRight size={22} className="text-emerald-600" />
+                                  <span className="text-emerald-700 font-semibold">Live for Students</span>
+                                </>
+                              ) : (
+                                <>
+                                  <ToggleLeft size={22} className="text-slate-400" />
+                                  <span className="text-slate-500 font-semibold">Listing Paused</span>
+                                </>
+                              )}
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -21,11 +21,12 @@ const columns = [
     ],
   },
   {
-    title: "Property Owners",
+    title: "Property Owners & Staff",
     links: [
       { label: "List Student PG / Room", to: "/list-your-property" },
       { label: "Owner Verification Process", to: "/how-it-works" },
       { label: "Owner Dashboard", to: "/owner/dashboard" },
+      { label: "🛡️ Admin Approval Portal", to: "/admin/dashboard" },
     ],
   },
 ];

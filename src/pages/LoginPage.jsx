@@ -20,8 +20,17 @@ export default function LoginPage() {
     try {
       const res = await authApi.login({ emailOrPhone, password });
       loginSuccess(res.data);
-      toast.success(`Welcome back, ${res.data.user.name.split(" ")[0]}`);
-      navigate("/");
+      const role = res.data.user?.role;
+      if (role === "admin") {
+        toast.success(`Welcome Admin, ${res.data.user.name.split(" ")[0]}! Opening Admin Panel.`);
+        navigate("/admin/dashboard");
+      } else if (role === "owner") {
+        toast.success(`Welcome back, ${res.data.user.name.split(" ")[0]}!`);
+        navigate("/owner/dashboard");
+      } else {
+        toast.success(`Welcome back, ${res.data.user.name.split(" ")[0]}`);
+        navigate("/");
+      }
     } catch (err) {
       const data = err.response?.data;
       if (data?.requiresEmailVerification) {

@@ -141,6 +141,18 @@ export default function Navbar() {
 
         {/* Right CTA / User controls */}
         <div className="hidden md:flex items-center gap-2.5">
+          {/* Admin Dashboard Quick Access Button */}
+          {user?.role === "admin" && (
+            <Link
+              to="/admin/dashboard"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all border border-purple-500 hover:scale-105"
+              title="Review Pending Room Listings"
+            >
+              <ShieldCheck size={14} className="text-purple-200" />
+              <span>🛡️ Admin Panel</span>
+            </Link>
+          )}
+
           {/* List Your PG CTA Button (PGdekho Orange Style) */}
           <Link
             to="/list-your-property"
@@ -184,6 +196,11 @@ export default function Navbar() {
                   {user.name?.[0]?.toUpperCase() || <UserIcon size={12} />}
                 </div>
                 <span>{user.name?.split(" ")[0]}</span>
+                {user.role === "admin" && (
+                  <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-1.5 py-0.5 rounded">
+                    Admin
+                  </span>
+                )}
               </Link>
               <button
                 onClick={() => {
@@ -265,6 +282,19 @@ export default function Navbar() {
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
             {user ? (
               <>
+                {user.role === "admin" && (
+                  <Link
+                    to="/admin/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold flex items-center justify-between shadow-sm"
+                  >
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck size={18} className="text-purple-200" />
+                      <span>🛡️ Open Admin Approval Panel</span>
+                    </div>
+                    <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono uppercase">Admin</span>
+                  </Link>
+                )}
                 <Link
                   to={
                     user.role === "owner"

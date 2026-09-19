@@ -267,6 +267,15 @@ export default function ListingFormModal({ onClose, onSaved, editingRoom = null 
           </button>
         </div>
 
+        {/* Admin Verification Notice */}
+        <div className="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900 flex items-start gap-2.5 mb-5">
+          <ShieldCheck size={17} className="text-blue-600 shrink-0 mt-0.5" />
+          <div>
+            <strong className="block text-slate-900 mb-0.5">Admin Physical Audit Workflow:</strong>
+            Once submitted, your listing enters the Admin review queue. Upon admin verification, it will go live with a verified badge and students will be able to search and message you directly on WhatsApp.
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Section 1: Photographs */}
           <div>

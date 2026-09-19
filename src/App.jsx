@@ -74,6 +74,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
             <Route path="/list-your-property" element={<ListPropertyRoute />} />
             <Route path="/owner" element={<ListPropertyRoute />} />
