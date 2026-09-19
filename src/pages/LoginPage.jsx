@@ -36,7 +36,7 @@ export default function LoginPage() {
       if (data?.requiresEmailVerification) {
         toast(data.message, { icon: "✉️" });
         navigate("/verify-email", {
-          state: { userId: data.userId, email: emailOrPhone, devOtp: data.devOtp },
+          state: { userId: data.userId, email: emailOrPhone },
         });
         return;
       }

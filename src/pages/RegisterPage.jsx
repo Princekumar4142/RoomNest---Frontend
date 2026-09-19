@@ -20,7 +20,6 @@ export default function RegisterPage({ forcedRole }) {
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [countdown, setCountdown] = useState(30);
-  const [devOtp, setDevOtp] = useState(null);
   const inputRefs = useRef([]);
   const { loginSuccess } = useAuth();
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ export default function RegisterPage({ forcedRole }) {
     try {
       const res = await authApi.register({ ...form, role });
       setUserId(res.data.userId);
-      if (res.data.devOtp) setDevOtp(res.data.devOtp);
       setCountdown(30);
       setStep("verify");
       toast.success("Verification code sent to your email.");
@@ -120,22 +118,14 @@ export default function RegisterPage({ forcedRole }) {
     if (countdown > 0) return;
     setResending(true);
     try {
-      const res = await authApi.resendEmailOtp(userId);
-      toast.success("A new verification code has been sent!");
-      if (res.data?.devOtp) setDevOtp(res.data.devOtp);
+      await authApi.resendEmailOtp(userId);
+      toast.success("A new verification code has been sent to your email!");
       setCountdown(30);
     } catch (err) {
       toast.error(err.response?.data?.message || "Couldn't resend code.");
     } finally {
       setResending(false);
     }
-  }
-
-  function fillOtp(code) {
-    if (!code) return;
-    const digits = String(code).split("").slice(0, OTP_LENGTH);
-    setOtp(digits);
-    if (inputRefs.current[OTP_LENGTH - 1]) inputRefs.current[OTP_LENGTH - 1].focus();
   }
 
   if (step === "verify") {
@@ -163,17 +153,6 @@ export default function RegisterPage({ forcedRole }) {
               Please check your <strong>Spam</strong>, <strong>Junk</strong>, or <strong>Promotions / Updates</strong> folder. Sent from <strong>RoomNest &lt;no-reply@trackmapinnovations.in&gt;</strong>.
             </p>
           </div>
-
-          {/* Development fast-fill badge */}
-          {devOtp && (
-            <button
-              type="button"
-              onClick={() => fillOtp(devOtp)}
-              className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-colors"
-            >
-              ⚡ Test Code: <strong>{devOtp}</strong> (Click to auto-fill)
-            </button>
-          )}
         </div>
 
         <form onSubmit={handleVerify} className="space-y-6">

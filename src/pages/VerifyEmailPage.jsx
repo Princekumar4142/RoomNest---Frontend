@@ -12,13 +12,12 @@ export default function VerifyEmailPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { loginSuccess } = useAuth();
-  const { userId, email, devOtp: initialDevOtp } = location.state || {};
+  const { userId, email } = location.state || {};
 
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
   const [countdown, setCountdown] = useState(30);
-  const [devOtp, setDevOtp] = useState(initialDevOtp);
   const inputRefs = useRef([]);
 
   useEffect(() => {
@@ -29,13 +28,6 @@ export default function VerifyEmailPage() {
 
   if (!userId) {
     return <Navigate to="/login" replace />;
-  }
-
-  function fillOtpCode(code) {
-    if (!code) return;
-    const digits = String(code).split("").slice(0, OTP_LENGTH);
-    setOtp(digits);
-    if (inputRefs.current[OTP_LENGTH - 1]) inputRefs.current[OTP_LENGTH - 1].focus();
   }
 
   function updateOtpDigit(index, value) {
@@ -71,9 +63,8 @@ export default function VerifyEmailPage() {
     if (countdown > 0) return;
     setResending(true);
     try {
-      const res = await authApi.resendEmailOtp(userId);
-      toast.success("A new verification code has been sent!");
-      if (res.data?.devOtp) setDevOtp(res.data.devOtp);
+      await authApi.resendEmailOtp(userId);
+      toast.success("A new verification code has been sent to your email!");
       setCountdown(30);
     } catch (err) {
       toast.error(err.response?.data?.message || "Couldn't resend code.");
@@ -102,17 +93,6 @@ export default function VerifyEmailPage() {
             Please check your <strong>Spam</strong>, <strong>Junk</strong>, or <strong>Promotions / Updates</strong> folder. The email is sent from <strong>RoomNest &lt;no-reply@trackmapinnovations.in&gt;</strong>.
           </p>
         </div>
-
-        {/* Development fast-fill badge */}
-        {devOtp && (
-          <button
-            type="button"
-            onClick={() => fillOtpCode(devOtp)}
-            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-colors"
-          >
-            ⚡ Test Code: <strong>{devOtp}</strong> (Click to auto-fill)
-          </button>
-        )}
       </div>
 
       <form onSubmit={handleVerify} className="space-y-6">
