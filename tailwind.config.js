@@ -37,6 +37,13 @@ export default {
           light: "#F59E0B",
           dark: "#B45309",
         },
+        // Vibrant PGdekho Coral Orange brand accent
+        brand: {
+          DEFAULT: "#FD701E",
+          hover: "#E55A0A",
+          light: "#FFF4ED",
+          border: "#FED7AA",
+        },
         slate: {
           ink: "#475569",
         },

@@ -39,6 +39,9 @@
   .btn-blue {
     @apply inline-flex items-center justify-center gap-2 rounded-xl bg-teal px-5 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-teal-dark active:scale-[0.98] shadow-sm disabled:opacity-50;
   }
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#FD701E] px-5 py-2.5 text-sm font-bold text-white transition-all duration-150 hover:bg-[#E55A0A] active:scale-[0.98] shadow-sm disabled:opacity-50;
+  }
 
   /* Crisp form inputs */
   .input-field {
