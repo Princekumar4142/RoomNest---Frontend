@@ -110,58 +110,60 @@ export default function Navbar() {
         }`}
       >
         <div className="container-page flex h-14 items-center justify-between gap-3">
-          {/* Left: Logo */}
-          <Link to="/" className="flex items-center gap-2 group shrink-0">
-            <img
-              src="/logo.png"
-              alt="RoomNest Logo"
-              className="h-8 w-8 object-contain rounded-lg border border-slate-100 dark:border-slate-700 shadow-xs transition-transform group-hover:scale-105"
-            />
-            <div>
-              <div className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-0.5">
-                <span>Room</span>
-                <span className="text-[#FD701E]">Nest</span>
-              </div>
-              <div className="text-[9px] font-semibold text-emerald-700 dark:text-emerald-400 tracking-wide uppercase mt-0.5">
-                {t("brand_sub", "Verified PGs & Co-Living")}
-              </div>
-            </div>
-          </Link>
-
-          {/* Center: Location Selector (Desktop) */}
-          <div className="relative hidden sm:block" ref={cityDropdownRef}>
-            <button
-              onClick={() => setShowCityPicker(!showCityPicker)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-750 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors shadow-2xs"
-            >
-              <MapPin size={13} className="text-[#FD701E]" />
-              <span className="max-w-[140px] truncate">{selectedCity}</span>
-              <ChevronDown size={12} className="text-slate-400" />
-            </button>
-
-            {showCityPicker && (
-              <div className="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl z-50 p-2 divide-y divide-slate-100 dark:divide-slate-700/60">
-                <div className="p-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  {t("select_campus", "Select Campus / Area")}
+          {/* Left: Logo & Location Selector */}
+          <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
+            <Link to="/" className="flex items-center gap-2 group shrink-0">
+              <img
+                src="/logo.png"
+                alt="RoomNest Logo"
+                className="h-8 w-8 object-contain rounded-lg border border-slate-100 dark:border-slate-700 shadow-xs transition-transform group-hover:scale-105"
+              />
+              <div>
+                <div className="font-display text-base font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-0.5">
+                  <span>Room</span>
+                  <span className="text-[#FD701E]">Nest</span>
                 </div>
-                {CITIES.map((c) => (
-                  <div
-                    key={c.query}
-                    onClick={() => handleSelectLocation(c)}
-                    className="p-2.5 hover:bg-orange-50/60 dark:hover:bg-orange-950/30 rounded-xl cursor-pointer transition-colors"
-                  >
-                    <div className="text-xs font-bold text-slate-900 dark:text-slate-100">{c.name}</div>
-                    <div className="text-[11px] text-slate-500 dark:text-slate-400">{c.count}</div>
-                  </div>
-                ))}
+                <div className="text-[9px] font-semibold text-emerald-700 dark:text-emerald-400 tracking-wide uppercase mt-0.5 hidden xs:block">
+                  {t("brand_sub", "Verified PGs & Co-Living")}
+                </div>
               </div>
-            )}
+            </Link>
+
+            {/* Location Selector (Next to Logo on Left) */}
+            <div className="relative shrink-0" ref={cityDropdownRef}>
+              <button
+                onClick={() => setShowCityPicker(!showCityPicker)}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-750 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors shadow-2xs"
+              >
+                <MapPin size={13} className="text-[#FD701E] shrink-0" />
+                <span className="max-w-[110px] sm:max-w-[160px] truncate">{selectedCity}</span>
+                <ChevronDown size={12} className="text-slate-400 shrink-0" />
+              </button>
+
+              {showCityPicker && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl z-50 p-2 divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <div className="p-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    {t("select_campus", "Select Campus / Area")}
+                  </div>
+                  {CITIES.map((c) => (
+                    <div
+                      key={c.query}
+                      onClick={() => handleSelectLocation(c)}
+                      className="p-2.5 hover:bg-orange-50/60 dark:hover:bg-orange-950/30 rounded-xl cursor-pointer transition-colors"
+                    >
+                      <div className="text-xs font-bold text-slate-900 dark:text-slate-100">{c.name}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">{c.count}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Right: Hamburger Menu Button */}
           <button
             onClick={() => setDrawerOpen(true)}
-            className="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-2xs"
+            className="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-2xs shrink-0"
             aria-label="Open navigation menu"
           >
             <Menu size={20} />
