@@ -40,6 +40,7 @@ export const roomApi = {
   get: (id) => client.get(`/rooms/${id}`),
   create: (data) => client.post("/rooms", data),
   update: (id, data) => client.put(`/rooms/${id}`, data),
+  updateAvailability: (id, data) => client.patch(`/rooms/${id}/availability`, data),
   remove: (id) => client.delete(`/rooms/${id}`),
   mine: () => client.get("/rooms/owner/mine"),
   nearbyPlaces: (id) => client.get(`/rooms/${id}/nearby-places`),
