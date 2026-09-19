@@ -19,9 +19,17 @@ export default function RegisterPage({ forcedRole }) {
   const [otp, setOtp] = useState(Array(OTP_LENGTH).fill(""));
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
+  const [countdown, setCountdown] = useState(30);
+  const [devOtp, setDevOtp] = useState(null);
   const inputRefs = useRef([]);
   const { loginSuccess } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (step !== "verify" || countdown <= 0) return;
+    const timer = setInterval(() => setCountdown((c) => c - 1), 1000);
+    return () => clearInterval(timer);
+  }, [step, countdown]);
 
   async function handleDetailsSubmit(e) {
     e.preventDefault();
@@ -36,6 +44,8 @@ export default function RegisterPage({ forcedRole }) {
     try {
       const res = await authApi.register({ ...form, role });
       setUserId(res.data.userId);
+      if (res.data.devOtp) setDevOtp(res.data.devOtp);
+      setCountdown(30);
       setStep("verify");
       toast.success("Verification code sent to your email.");
     } catch (err) {
@@ -107,10 +117,13 @@ export default function RegisterPage({ forcedRole }) {
   }
 
   async function handleResend() {
+    if (countdown > 0) return;
     setResending(true);
     try {
       const res = await authApi.resendEmailOtp(userId);
-      toast.success("A new code has been sent.");
+      toast.success("A new verification code has been sent!");
+      if (res.data?.devOtp) setDevOtp(res.data.devOtp);
+      setCountdown(30);
     } catch (err) {
       toast.error(err.response?.data?.message || "Couldn't resend code.");
     } finally {
@@ -118,21 +131,49 @@ export default function RegisterPage({ forcedRole }) {
     }
   }
 
+  function fillOtp(code) {
+    if (!code) return;
+    const digits = String(code).split("").slice(0, OTP_LENGTH);
+    setOtp(digits);
+    if (inputRefs.current[OTP_LENGTH - 1]) inputRefs.current[OTP_LENGTH - 1].focus();
+  }
+
   if (step === "verify") {
     return (
       <AuthLayout>
-        <button onClick={() => setStep("details")} className="flex items-center gap-1.5 text-sm text-slate-ink/60 hover:text-ink mb-6">
-          <ArrowLeft size={15} /> Back
+        <button onClick={() => setStep("details")} className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-900 mb-5">
+          <ArrowLeft size={14} /> Edit registration details
         </button>
 
-        <div className="text-center mb-8">
-          <span className="stamp h-14 w-14 text-sm font-bold mx-auto mb-4">
+        <div className="text-center mb-6">
+          <span className="stamp h-14 w-14 text-sm font-bold mx-auto mb-4 bg-orange-50 text-[#FD701E] border border-orange-200">
             <Mail size={22} />
           </span>
-          <h1 className="font-display text-2xl font-semibold text-ink">Check your email</h1>
-          <p className="text-sm text-slate-ink/60 mt-2">
-            We sent a 6-digit code to <span className="font-medium text-ink">{form.email}</span>
+          <h1 className="font-display text-2xl font-bold text-slate-900">Check your email</h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-2">
+            We sent a 6-digit code to <strong className="text-slate-800">{form.email}</strong>
           </p>
+
+          {/* Spam / Inbox Alert Notice */}
+          <div className="mt-4 p-3 bg-amber-50/90 border border-amber-200 rounded-xl text-left text-xs text-amber-900">
+            <p className="font-semibold flex items-center gap-1.5 text-amber-800">
+              📬 Didn't see the email in your Primary Inbox?
+            </p>
+            <p className="text-amber-700 text-[11px] mt-0.5 leading-relaxed">
+              Please check your <strong>Spam</strong>, <strong>Junk</strong>, or <strong>Promotions / Updates</strong> folder. Sent from <strong>RoomNest &lt;no-reply@trackmapinnovations.in&gt;</strong>.
+            </p>
+          </div>
+
+          {/* Development fast-fill badge */}
+          {devOtp && (
+            <button
+              type="button"
+              onClick={() => fillOtp(devOtp)}
+              className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-colors"
+            >
+              ⚡ Test Code: <strong>{devOtp}</strong> (Click to auto-fill)
+            </button>
+          )}
         </div>
 
         <form onSubmit={handleVerify} className="space-y-6">
@@ -146,20 +187,24 @@ export default function RegisterPage({ forcedRole }) {
                 onKeyDown={(e) => handleOtpKeyDown(i, e)}
                 inputMode="numeric"
                 maxLength={1}
-                className="h-11 w-9 sm:h-12 sm:w-11 rounded-xl border border-ink/15 bg-white text-center text-lg font-semibold text-ink focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/20 transition-shadow"
+                className="h-11 w-9 sm:h-12 sm:w-11 rounded-xl border border-slate-300 bg-white text-center text-lg font-bold text-slate-900 focus:border-[#FD701E] focus:outline-none focus:ring-2 focus:ring-orange-200 transition-shadow"
               />
             ))}
           </div>
 
-          <button disabled={loading} className="btn-primary w-full disabled:opacity-60">
-            {loading ? "Verifying..." : "Verify & create account"}
+          <button disabled={loading} className="btn-brand w-full !py-2.5 text-xs font-bold disabled:opacity-60">
+            {loading ? "Verifying..." : "Verify & Create Account"}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-ink/60">
+        <p className="mt-6 text-center text-xs text-slate-500">
           Didn't get the code?{" "}
-          <button onClick={handleResend} disabled={resending} className="font-medium text-teal hover:text-teal-dark">
-            {resending ? "Sending..." : "Resend code"}
+          <button
+            onClick={handleResend}
+            disabled={resending || countdown > 0}
+            className="font-bold text-[#FD701E] hover:underline disabled:opacity-50 disabled:no-underline"
+          >
+            {resending ? "Sending..." : countdown > 0 ? `Resend code in ${countdown}s` : "Resend code"}
           </button>
         </p>
       </AuthLayout>
