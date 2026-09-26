@@ -21,7 +21,8 @@ import {
   XCircle,
   AlertCircle,
   PlusCircle,
-  ArrowRight
+  ArrowRight,
+  Building
 } from "lucide-react";
 import { loadRazorpayScript } from "../utils/razorpay";
 import toast from "react-hot-toast";

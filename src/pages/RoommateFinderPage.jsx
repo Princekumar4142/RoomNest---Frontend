@@ -40,7 +40,11 @@ export default function RoommateFinderPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!user) return toast.error("Log in to post a roommate request.");
+    if (!user) {
+      toast.error("Please log in to post a roommate request.");
+      navigate("/login?redirect=/roommates");
+      return;
+    }
     setSaving(true);
     try {
       await roommateApi.create({
@@ -53,10 +57,24 @@ export default function RoommateFinderPage() {
       setForm(EMPTY_FORM);
       load(cityFilter);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Couldn't post right now.");
+      if (err.response?.status === 401) {
+        toast.error("Your login session expired. Please log in again.");
+        navigate("/login?redirect=/roommates");
+      } else {
+        toast.error(err.response?.data?.message || "Couldn't post right now.");
+      }
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleOpenPostForm() {
+    if (!user) {
+      toast.error("Please log in to post a roommate request.");
+      navigate("/login?redirect=/roommates");
+      return;
+    }
+    setShowForm(true);
   }
 
   return (
@@ -68,7 +86,7 @@ export default function RoommateFinderPage() {
             Moving with a flatmate splits the rent and makes a new city feel less unfamiliar.
           </p>
         </div>
-        <button onClick={() => setShowForm(true)} className="btn-primary shrink-0">
+        <button onClick={handleOpenPostForm} className="btn-primary shrink-0">
           <Plus size={16} />
           Post a request
         </button>

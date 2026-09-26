@@ -22,6 +22,13 @@ export default function LoginPage() {
     try {
       const res = await authApi.login({ emailOrPhone, password });
       loginSuccess(res.data);
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirect = searchParams.get("redirect");
+      if (redirect) {
+        toast.success(`Welcome back, ${res.data.user.name.split(" ")[0]}!`);
+        navigate(redirect);
+        return;
+      }
       const role = res.data.user?.role;
       if (role === "admin") {
         toast.success(`Welcome Admin, ${res.data.user.name.split(" ")[0]}! Opening Admin Panel.`);

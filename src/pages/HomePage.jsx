@@ -6,21 +6,14 @@ import {
   MapPin,
   ArrowRight,
   Utensils,
-  Wifi,
   Building,
   Navigation,
   X,
   Bed,
   CheckCircle2,
-  Users,
   ChevronDown,
   Sparkles,
-  Award,
-  PhoneCall,
-  Clock,
-  HeartHandshake,
-  HelpCircle,
-  Plus
+  Award
 } from "lucide-react";
 import { roomApi } from "../api/endpoints";
 import RoomCard from "../components/room/RoomCard";
@@ -83,7 +76,6 @@ export default function HomePage() {
   const [collegeQuery, setCollegeQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [occupancy, setOccupancy] = useState("");
-  const [sharingType, setSharingType] = useState("");
   const [maxBudget, setMaxBudget] = useState("");
   const [featuredRooms, setFeaturedRooms] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
@@ -126,7 +118,6 @@ export default function HomePage() {
     const params = new URLSearchParams();
     if (collegeQuery.trim()) params.set("campus", collegeQuery.trim());
     if (occupancy) params.set("occupancy", occupancy);
-    if (sharingType) params.set("sharingType", sharingType);
     if (maxBudget) params.set("maxPrice", maxBudget);
     navigate(`/search?${params.toString()}`);
   }
@@ -227,73 +218,103 @@ export default function HomePage() {
         description="Find affordable, 100% verified PGs for students and working professionals. Homely food, safe gated security, verified owners, and zero brokerage."
       />
 
-      {/* 1. HERO SECTION */}
-      <section className="relative pt-10 pb-14 sm:py-16 bg-gradient-to-b from-white via-orange-50/20 to-[#FBFBFC] dark:from-slate-900 dark:via-slate-900/90 dark:to-[#0B1120] border-b border-slate-200/70 dark:border-slate-800 transition-colors">
-        <div className="container-page max-w-6xl text-center">
+      {/* 1. HERO SECTION (Stitch Glassmorphic Design) */}
+      <section className="relative pt-10 pb-16 sm:pt-14 sm:pb-20 overflow-hidden bg-gradient-to-b from-white via-indigo-50/20 to-[#F8FAFC] dark:from-slate-900 dark:via-slate-900/95 dark:to-[#0B1120] border-b border-slate-200/70 dark:border-slate-800 transition-colors">
+        {/* Atmospheric Ambient Glow Orbs */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[720px] h-[380px] bg-gradient-to-r from-orange-400/15 via-indigo-500/10 to-emerald-400/15 blur-3xl pointer-events-none -z-0 rounded-full" />
+        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-orange-500/10 blur-3xl pointer-events-none -z-0 rounded-full" />
+
+        <div className="container-page max-w-6xl text-center relative z-10">
           
-          {/* Trust Pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/60 px-4 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 mb-5 shadow-2xs">
+          {/* Floating Guarantee Badge (Stitch Style) */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-emerald-200/70 dark:border-emerald-800/60 shadow-xs mb-5 hover:shadow-md transition-all">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <ShieldCheck size={14} className="text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-            {t("trust_pill")}
+            <span className="text-xs font-bold tracking-wide text-slate-800 dark:text-slate-200">
+              {t("trust_pill")}
+            </span>
           </div>
 
-          {/* Headline */}
-          <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-slate-900 dark:text-white tracking-tight max-w-4xl mx-auto leading-[1.15]">
+          {/* Master Headline with Gradient Accent */}
+          <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.6rem] font-extrabold text-slate-900 dark:text-white tracking-tight max-w-4xl mx-auto leading-[1.12]">
             {t("hero_title")}{" "}
-            <span className="text-[#FD701E]">{t("co_living")}</span>
+            <span className="bg-gradient-to-r from-[#FD701E] via-indigo-600 to-violet-600 dark:from-[#FD701E] dark:via-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
+              {t("co_living")}
+            </span>
           </h1>
 
-          <p className="mt-3.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+          {/* Subtitle */}
+          <p className="mt-4 text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
             {t("hero_subtitle")}
           </p>
 
-          {/* Search Capsule */}
-          <div className="mt-8 max-w-3xl mx-auto relative z-30">
+          {/* Stitch Master Floating Search Capsule */}
+          <div className="mt-9 max-w-4xl mx-auto relative z-30">
             <form
               onSubmit={handleSearch}
-              className="bg-white dark:bg-slate-800 rounded-2xl sm:rounded-full p-2 shadow-lg border border-slate-200/90 dark:border-slate-700 flex flex-col sm:flex-row items-center gap-2 text-left"
+              className="glass-pill p-2.5 sm:p-3 rounded-2xl sm:rounded-full flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-left shadow-xl shadow-slate-900/5 dark:shadow-black/40 border border-white/90 dark:border-slate-700/80"
             >
-              <div className="flex-1 w-full flex items-center gap-3 px-4 py-2 relative" ref={dropdownRef}>
-                <MapPin size={20} className="text-[#FD701E] shrink-0" />
-                <input
-                  type="text"
-                  value={collegeQuery}
-                  onChange={(e) => {
-                    setCollegeQuery(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  placeholder={t("search_placeholder")}
-                  className="w-full bg-transparent text-sm font-semibold text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal"
-                />
+              {/* Segment 1: College / Campus / City */}
+              <div className="flex-1 w-full flex items-center gap-3 px-3.5 py-1.5 relative" ref={dropdownRef}>
+                <div className="w-9 h-9 rounded-full bg-orange-500/10 dark:bg-orange-500/20 flex items-center justify-center text-[#FD701E] shrink-0">
+                  <MapPin size={18} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    {t("select_campus")}
+                  </div>
+                  <input
+                    type="text"
+                    value={collegeQuery}
+                    onChange={(e) => {
+                      setCollegeQuery(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    placeholder={t("search_placeholder")}
+                    className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal truncate"
+                  />
+                </div>
 
+                {collegeQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setCollegeQuery("")}
+                    className="p-1 text-slate-400 hover:text-slate-600 rounded-full"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+
+                {/* Live GPS Button */}
                 <button
                   type="button"
                   onClick={handleLiveLocationSearch}
                   disabled={detectingLocation}
-                  className="p-1.5 hover:bg-orange-50 text-slate-400 hover:text-[#FD701E] rounded-full transition-colors shrink-0"
+                  className="p-2 bg-orange-50 dark:bg-orange-950/60 hover:bg-orange-100 text-[#FD701E] rounded-full transition-all shrink-0 active:scale-95 border border-orange-200/60 dark:border-orange-800/60"
                   title={t("near_live_location")}
                 >
-                  <Navigation size={16} className={detectingLocation ? "animate-spin text-[#FD701E]" : ""} />
+                  <Navigation size={15} className={detectingLocation ? "animate-spin text-[#FD701E]" : ""} />
                 </button>
 
+                {/* Suggestions Dropdown */}
                 {showSuggestions && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 divide-y divide-slate-100">
-                    <div className="p-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50">
+                  <div className="absolute top-full left-0 right-0 mt-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 divide-y divide-slate-100 dark:divide-slate-700/60">
+                    <div className="p-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-50 dark:bg-slate-900/60">
                       {t("popular_campuses_dropdown")}
                     </div>
                     {filteredSuggestions.map((col) => (
                       <div
                         key={col.name}
                         onMouseDown={() => handleSelectCollege(col.name)}
-                        className="p-3 hover:bg-orange-50/70 cursor-pointer transition-colors flex items-center justify-between group"
+                        className="p-3 hover:bg-orange-50/70 dark:hover:bg-slate-700/60 cursor-pointer transition-colors flex items-center justify-between group"
                       >
                         <div className="truncate">
-                          <div className="text-xs font-bold text-slate-900 group-hover:text-[#FD701E] transition-colors truncate">
+                          <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#FD701E] transition-colors truncate">
                             {col.short}
                           </div>
-                          <div className="text-[11px] text-slate-500 truncate">
-                            {col.city} • <span className="text-emerald-700 font-semibold">{col.beds}</span>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                            {col.city} • <span className="text-emerald-700 dark:text-emerald-400 font-semibold">{col.beds}</span>
                           </div>
                         </div>
                         <ArrowRight size={13} className="text-slate-300 group-hover:text-[#FD701E] shrink-0 ml-2" />
@@ -303,71 +324,130 @@ export default function HomePage() {
                 )}
               </div>
 
-              <div className="hidden sm:block h-6 w-px bg-slate-200" />
+              {/* Vertical divider */}
+              <div className="hidden sm:block h-8 w-px bg-slate-200 dark:bg-slate-700" />
 
-              <div className="w-full sm:w-auto px-3 py-1 flex items-center gap-1.5">
-                <Users size={15} className="text-slate-400 shrink-0" />
-                <select
-                  value={occupancy}
-                  onChange={(e) => setOccupancy(e.target.value)}
-                  className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
-                >
-                  <option value="">{t("all_gender")}</option>
-                  <option value="Boys">{t("boys_only")}</option>
-                  <option value="Girls">{t("girls_only")}</option>
-                  <option value="Co-ed">{t("co_ed")}</option>
-                </select>
+              {/* Segment 2: Room Type / Occupancy */}
+              <div className="w-full sm:w-auto px-3.5 py-1.5 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-500 shrink-0">
+                  <Bed size={16} />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Room Type
+                  </span>
+                  <select
+                    value={occupancy}
+                    onChange={(e) => setOccupancy(e.target.value)}
+                    className="bg-transparent text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
+                  >
+                    <option value="" className="dark:bg-slate-800">{t("all_gender")}</option>
+                    <option value="Boys" className="dark:bg-slate-800">{t("boys_only")}</option>
+                    <option value="Girls" className="dark:bg-slate-800">{t("girls_only")}</option>
+                    <option value="Co-ed" className="dark:bg-slate-800">{t("co_ed")}</option>
+                  </select>
+                </div>
               </div>
 
-              <div className="hidden md:flex items-center gap-1 px-3 py-1 border-l border-slate-200">
-                <span className="text-xs font-bold text-slate-400">₹</span>
-                <select
-                  value={maxBudget}
-                  onChange={(e) => setMaxBudget(e.target.value)}
-                  className="bg-transparent text-xs font-semibold text-slate-700 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
-                >
-                  <option value="">{t("any_budget")}</option>
-                  <option value="3500">&lt; ₹3,500</option>
-                  <option value="5000">&lt; ₹5,000</option>
-                  <option value="8000">&lt; ₹8,000</option>
-                  <option value="12000">&lt; ₹12,000</option>
-                </select>
+              {/* Vertical divider */}
+              <div className="hidden md:block h-8 w-px bg-slate-200 dark:bg-slate-700" />
+
+              {/* Segment 3: Budget */}
+              <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5">
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-500 shrink-0 font-bold text-xs">
+                  ₹
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Max Budget
+                  </span>
+                  <select
+                    value={maxBudget}
+                    onChange={(e) => setMaxBudget(e.target.value)}
+                    className="bg-transparent text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 focus:outline-none cursor-pointer pr-1"
+                  >
+                    <option value="" className="dark:bg-slate-800">{t("any_budget")}</option>
+                    <option value="3500" className="dark:bg-slate-800">&lt; ₹3,500/mo</option>
+                    <option value="5000" className="dark:bg-slate-800">&lt; ₹5,000/mo</option>
+                    <option value="8000" className="dark:bg-slate-800">&lt; ₹8,000/mo</option>
+                    <option value="12000" className="dark:bg-slate-800">&lt; ₹12,000/mo</option>
+                  </select>
+                </div>
               </div>
 
+              {/* Search CTA */}
               <button
                 type="submit"
-                className="w-full sm:w-auto px-6 py-3 bg-[#FD701E] hover:bg-[#E55A0A] text-white rounded-xl sm:rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-[1.02] shrink-0"
+                className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-[#FD701E] to-[#E55A0A] hover:from-[#E55A0A] hover:to-[#C94B05] text-white rounded-xl sm:rounded-full font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] active:scale-95 shrink-0"
               >
-                <Search size={15} />
+                <Search size={16} />
                 <span>{t("search_btn")}</span>
               </button>
             </form>
           </div>
 
-          {/* Quick Location Shortcuts */}
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={handleLiveLocationSearch}
-              className="text-xs font-bold text-[#FD701E] bg-orange-50 hover:bg-orange-100 px-3 py-1 rounded-full border border-orange-200 shadow-2xs flex items-center gap-1.5 transition-colors"
-            >
-              <Navigation size={12} /> {t("near_live_location")}
-            </button>
-            <span className="text-xs text-slate-400 font-medium">{t("popular_label")}</span>
-            {POPULAR_CAMPUSES.map((c) => (
-              <button
-                key={c.name}
-                type="button"
-                onClick={() => handleSelectCollege(c.name)}
-                className="text-xs font-semibold text-slate-700 hover:text-[#FD701E] bg-white hover:bg-orange-50 px-3 py-1 rounded-full border border-slate-200 shadow-2xs transition-colors"
-              >
-                📍 {c.short}
-              </button>
-            ))}
+          {/* Stitch 4-Card Trust & Scale Ribbon (Replaces cluttered raw pills) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-12 max-w-4xl mx-auto">
+            <div className="glass-card rounded-2xl p-4 sm:p-5 flex items-center gap-3.5 text-left hover:-translate-y-0.5 transition-all">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-orange-500/10 text-[#FD701E] flex items-center justify-center shrink-0">
+                <Building size={20} />
+              </div>
+              <div>
+                <div className="font-display font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                  12,500+
+                </div>
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  {t("metric_beds")}
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-4 sm:p-5 flex items-center gap-3.5 text-left hover:-translate-y-0.5 transition-all">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <div className="font-display font-extrabold text-base sm:text-lg text-emerald-600 dark:text-emerald-400 tracking-tight">
+                  ₹0 Brokerage
+                </div>
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  {t("metric_brokerage")}
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-4 sm:p-5 flex items-center gap-3.5 text-left hover:-translate-y-0.5 transition-all">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                <Award size={20} />
+              </div>
+              <div>
+                <div className="font-display font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                  4.9 / 5.0 ★
+                </div>
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  {t("metric_reviews")}
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-2xl p-4 sm:p-5 flex items-center gap-3.5 text-left hover:-translate-y-0.5 transition-all">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0">
+                <CheckCircle2 size={20} />
+              </div>
+              <div>
+                <div className="font-display font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
+                  100% Audited
+                </div>
+                <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
+                  {t("metric_audit")}
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
       </section>
+
 
       {/* 2. POPULAR ACCOMMODATIONS BY CATEGORY */}
       <section className="container-page py-10 max-w-6xl">
